@@ -9,6 +9,7 @@ UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*v
     self->complex_values =  (privateUniversalGarbageElement**)malloc(0);
     return self;
 }
+
 short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
     if(!self->main_return){
         return UNIVERSAL_GARBAGE_OK;
