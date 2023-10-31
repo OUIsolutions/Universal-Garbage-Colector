@@ -18,6 +18,7 @@ short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
         return UNIVERSAL_GARBAGE_OK;
     }
     if(!self->clear_callback){
+        free(self->main_return);
         return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
     }
 
