@@ -4,6 +4,8 @@ typedef  struct UniversalGarbage{
 
     void (*clear_callback)(short type, void*value);
     void *main_return;
+    int main_return_type;
+    bool is_main_a_normal_value;
     void **normal_values;
     int  normal_values_size;
     privateUniversalGarbageElement *especial_values;
@@ -11,7 +13,7 @@ typedef  struct UniversalGarbage{
 
 }UniversalGarbage;
 
-UniversalGarbage newUniversalGarbage(UniversalGarbage *self,void (*clear_callback)(short type, void*value));
+UniversalGarbage newUniversalGarbage(void (*clear_callback)(short type, void*value));
 
 void UniversalGarbage_add_normal_return(UniversalGarbage *self,void *value);
 
