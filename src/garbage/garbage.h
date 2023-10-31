@@ -23,6 +23,8 @@ void UniversalGarbage_add_normal_value(UniversalGarbage *self,void *value);
 
 void UniversalGarbage_add_especial_value(UniversalGarbage *self,short type,void *value);
 
+short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
+
 short UniversalGarbage_free_including_return(UniversalGarbage *self);
 
 short UniversalGarbage_free(UniversalGarbage *self);

@@ -55,10 +55,7 @@ void UniversalGarbage_add_especial_value(UniversalGarbage *self,short type,void 
     self->especial_values[self->especial_values_size] = newprivateUniversalGarbageElement(type,value);
 }
 
-short UniversalGarbage_free_including_return(UniversalGarbage *self){
-    private_UniversalGarbage_clear_main_return(self);
-
-
+short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
     for(int i = 0; i < self->normal_values_size; i++){
         void *current = self->normal_values[i];
         if(current){
@@ -66,20 +63,47 @@ short UniversalGarbage_free_including_return(UniversalGarbage *self){
         }
     }
     free(self->normal_values);
-    if(!self->clear_callback && self->especial_values_size){
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
-    }
 
     for(int i = 0; i < self->especial_values_size; i++){
         privateUniversalGarbageElement  *current = self->especial_values[i];
 
-        if(current->value){
+        if(current->value &&self->clear_callback){
             self->clear_callback(current->type,current->value);
         }
+
+        if(current->value && !self->clear_callback){
+            //these is a potencial error
+            free(current->value);
+        }
+
         free(current);
 
     }
     free(self->especial_values);
+
+    if(!self->clear_callback && self->especial_values_size){
+        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
+    }
+    return UNIVERSAL_GARBAGE_OK;
+
+}
+short UniversalGarbage_free_including_return(UniversalGarbage *self){
+
+    short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
+    short main_clear_result = private_UniversalGarbage_clear_main_return(self);
+
+    free(self);
+
+    if(universal_clear_result || main_clear_result){
+        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
+    }
+
     return UNIVERSAL_GARBAGE_OK;
 }
 
+short UniversalGarbage_free(UniversalGarbage *self){
+    short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
+    free(self);
+
+    return universal_clear_result;
+}
