@@ -5,23 +5,23 @@ typedef  struct UniversalGarbage{
     void (*clear_callback)(short type, void*value);
     void *main_return;
     short main_return_type;
-    bool is_main_a_normal_value;
-    void **normal_values;
+    bool is_main_return_a_simple_type;
+    void **simple_values;
     int  normal_values_size;
-    privateUniversalGarbageElement **especial_values;
+    privateUniversalGarbageElement **complex_values;
     int especial_values_size;
 
 }UniversalGarbage;
 
 UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value));
 
-void UniversalGarbage_add_normal_return(UniversalGarbage *self,void *value);
+void UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
 
-void UniversalGarbage_add_especial_return(UniversalGarbage *self,short type,void *value);
+void UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
 
 void UniversalGarbage_add_normal_value(UniversalGarbage *self,void *value);
 
-void UniversalGarbage_add_especial_value(UniversalGarbage *self,short type,void *value);
+void UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
 
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 
