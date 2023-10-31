@@ -9,21 +9,29 @@ typedef struct Car{
 }Car;
 
 Car *newCar(){
-    Car *self = (Car*)malloc(sizeof(Car));
+    Car *self = UniversalGarbage_create_null_struct(self, Car);
     self->garbage = newUniversalGarbage(NULL);
     UniversalGarbage_add_simple_value(self->garbage,self);
     return  self;
 }
 
 void Car_set_name(Car*self,const char *name){
-    self->name = strdup(name);
-    UniversalGarbage_add_simple_value(self->garbage,self->name);
+    self->name = UniversalGarbage_resset_simple_value(
+            self->garbage,
+            self->name,
+            strdup(name)
+            );
 }
 
+
 void Car_set_color(Car*self,const char *color){
-    self->color = strdup(color);
-    UniversalGarbage_add_simple_value(self->garbage,self->color);
+    self->color = UniversalGarbage_resset_simple_value(
+            self->garbage,
+            self->name,
+            strdup(color)
+    );
 }
+
 
 void Car_free(Car *self){
     UniversalGarbage_free(self->garbage);
@@ -49,7 +57,10 @@ int main(){
     Car *celta = newCar();
     UniversalGarbage_add_complex_value(garbage,CAR,celta);
 
+    
+
     Car_set_color(celta,"vermelho");
+    Car_set_name(celta,"aaaaaa");
     Car_set_name(celta,"aaaaaa");
 
     printf("nome: %s\n",celta->name);

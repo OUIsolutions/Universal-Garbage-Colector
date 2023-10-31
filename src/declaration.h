@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+#define UniversalGarbage_create_null_struct(name,element_type) \
+(element_type*)malloc(sizeof(element_type));    \
+*name = (element_type){0};
+
 #define UNIVERSAL_GARBAGE_OK 0
 #define UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED -1
 
