@@ -8,7 +8,7 @@ typedef  struct UniversalGarbage{
     bool is_main_a_normal_value;
     void **normal_values;
     int  normal_values_size;
-    privateUniversalGarbageElement *especial_values;
+    privateUniversalGarbageElement **especial_values;
     int especial_values_size;
 
 }UniversalGarbage;
