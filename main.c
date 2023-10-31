@@ -1,5 +1,4 @@
-#include <string.h>
-#include <stdio.h>
+
 #include "src/one.h"
 
 
@@ -29,6 +28,7 @@ void Car_set_color(Car*self,const char *color){
 void Car_free(Car *self){
     UniversalGarbage_free(self->garbage);
 }
+
 #define CAR 1
 
 void clear_all(short type, void *value){

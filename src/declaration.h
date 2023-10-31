@@ -1,6 +1,8 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #define UNIVERSAL_GARBAGE_OK 0
 #define UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED -1
 
