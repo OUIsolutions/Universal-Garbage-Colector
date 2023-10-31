@@ -9,7 +9,7 @@ typedef struct Car{
 }Car;
 
 Car *newCar(){
-    Car *self = UniversalGarbage_empty_null_struct(self, Car);
+    Car *self = UniversalGarbage_create_empty_struct(self, Car);
     self->garbage = newUniversalGarbage(NULL);
     UniversalGarbage_add_simple_value(self->garbage,self);
     return  self;
