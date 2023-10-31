@@ -69,7 +69,15 @@ void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
     if(possible_resset){
         return possible_resset;
     }
-    
+
+
+    for(int i = 0; i < self->normal_simple_values_size; i++){
+        bool already_addedd  = self->simple_values[i] == value;
+        if(already_addedd){
+            return value;
+        }
+    }
+
     self->simple_values = (void**)realloc(
             self->simple_values,
             (self->normal_simple_values_size + 1) * sizeof(void*)
