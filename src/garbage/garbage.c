@@ -10,6 +10,7 @@ UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*v
     return self;
 }
 
+
 short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
     if(!self->main_return){
         return UNIVERSAL_GARBAGE_OK;
@@ -100,6 +101,7 @@ short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
     return UNIVERSAL_GARBAGE_OK;
 
 }
+
 short UniversalGarbage_free_including_return(UniversalGarbage *self){
 
     short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
