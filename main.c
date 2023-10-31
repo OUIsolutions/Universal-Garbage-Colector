@@ -57,7 +57,7 @@ int main(){
     Car *celta = newCar();
     UniversalGarbage_add_complex_value(garbage,CAR,celta);
 
-    
+
 
     Car_set_color(celta,"vermelho");
     Car_set_name(celta,"aaaaaa");

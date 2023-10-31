@@ -15,15 +15,15 @@ typedef  struct UniversalGarbage{
 
 UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value));
 
-void UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
+void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
 
-void UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
+void * UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
 
 void * UniversalGarbage_resset_simple_value(UniversalGarbage *self,void *old_value, void *new_value);
 
 void * UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value);
 
-void UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
+void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
 
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 

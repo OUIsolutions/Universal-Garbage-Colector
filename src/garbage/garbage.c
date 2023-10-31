@@ -28,18 +28,21 @@ short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
     return  UNIVERSAL_GARBAGE_OK;
 }
 
-void UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value){
+void *UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value){
     private_UniversalGarbage_clear_main_return(self);
     self->main_return = value;
     self->is_main_return_a_simple_type = true;
+    return  value;
 }
 
-void UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value){
+void *UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value){
     private_UniversalGarbage_clear_main_return(self);
     self->main_return = value;
     self->main_return_type = type;
     self->is_main_return_a_simple_type = false;
+    return  value;
 }
+
 
 
 void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
@@ -75,9 +78,9 @@ void * UniversalGarbage_resset_simple_value(UniversalGarbage *self,void *old_val
 
 }
 
-void UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value){
+void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value){
     if(!value){
-        return;
+        return NULL;
     }
 
     self->complex_values = (privateUniversalGarbageElement**) realloc(
@@ -86,6 +89,7 @@ void UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void
     );
     self->complex_values[self->complex_values_size] = newprivateUniversalGarbageElement(type, value);
     self->complex_values_size+=1;
+    return value;
 }
 
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
