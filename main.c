@@ -1,6 +1,14 @@
 
 #include "src/one.h"
 
+#define CAR 1
+
+void clear_all(short type, void *value){
+    if(type == CAR){
+        Car_free((Car*)value);
+    }
+}
+
 
 typedef struct Car{
     char *name;
@@ -10,7 +18,7 @@ typedef struct Car{
 
 Car *newCar(){
     Car *self = UniversalGarbage_create_empty_struct(self, Car);
-    self->garbage = newUniversalGarbage(NULL);
+    self->garbage = newUniversalGarbage(clear_all);
     UniversalGarbage_add_simple_value(self->garbage,self);
     return  self;
 }
@@ -37,13 +45,6 @@ void Car_free(Car *self){
     UniversalGarbage_free(self->garbage);
 }
 
-#define CAR 1
-
-void clear_all(short type, void *value){
-    if(type == CAR){
-        Car_free((Car*)value);
-    }
-}
 
 int main(){
     UniversalGarbage  *garbage = newUniversalGarbage(clear_all);
