@@ -54,6 +54,10 @@ void UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
 }
 
 void UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value){
+    if(!value){
+        return;
+    }
+
     self->complex_values = (privateUniversalGarbageElement**) realloc(
                 self->complex_values,
                 (self->complex_values_size + 1 ) * (sizeof (privateUniversalGarbageElement**))
