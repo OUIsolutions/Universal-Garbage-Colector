@@ -1,6 +1,6 @@
 
 
-#ifdef UNIVERSAL_GARBAGE_H
+#ifndef UNIVERSAL_GARBAGE_H
 #include "declaration.h"
 #include "definition.c"
 
