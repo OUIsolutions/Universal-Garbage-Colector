@@ -1,11 +1,12 @@
 
 
-UniversalGarbage newUniversalGarbage(void (*clear_callback)(short type, void*value)){
-    UniversalGarbage self = {0};
-    self.clear_callback = clear_callback;
-    self.is_main_a_normal_value = true;
-    self.normal_values = (void*)malloc(0);
-    self.especial_values =  (privateUniversalGarbageElement*)malloc(0);
+UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value)){
+    UniversalGarbage *self = malloc(sizeof (UniversalGarbage));
+    *self = (UniversalGarbage){0};
+    self->clear_callback = clear_callback;
+    self->is_main_a_normal_value = true;
+    self->normal_values = (void*)malloc(0);
+    self->especial_values =  (privateUniversalGarbageElement**)malloc(0);
     return self;
 }
 short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
@@ -54,4 +55,22 @@ void UniversalGarbage_add_especial_value(UniversalGarbage *self,short type,void 
     self->especial_values[self->especial_values_size] = newprivateUniversalGarbageElement(type,value);
 }
 
+short UniversalGarbage_free_including_return(UniversalGarbage *self){
+    private_UniversalGarbage_clear_main_return(self);
+
+
+
+
+    if(!self->clear_callback && self->especial_values_size){
+        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
+    }
+
+    for(int i = 0; i < self->especial_values_size; i++){
+        privateUniversalGarbageElement  *current = self->especial_values[i];
+        self->clear_callback(current->type,current->value);
+        free(current);
+    }
+    free(self->especial_values);
+    return UNIVERSAL_GARBAGE_OK;
+}
 

@@ -13,7 +13,7 @@ typedef  struct UniversalGarbage{
 
 }UniversalGarbage;
 
-UniversalGarbage newUniversalGarbage(void (*clear_callback)(short type, void*value));
+UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value));
 
 void UniversalGarbage_add_normal_return(UniversalGarbage *self,void *value);
 
@@ -23,6 +23,6 @@ void UniversalGarbage_add_normal_value(UniversalGarbage *self,void *value);
 
 void UniversalGarbage_add_especial_value(UniversalGarbage *self,short type,void *value);
 
-void UniversalGarbage_free_including_return(UniversalGarbage *self);
+short UniversalGarbage_free_including_return(UniversalGarbage *self);
 
-void UniversalGarbage_free(UniversalGarbage *self);
+short UniversalGarbage_free(UniversalGarbage *self);
