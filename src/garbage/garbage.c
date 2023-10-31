@@ -29,5 +29,11 @@ void UniversalGarbage_add_normal_return(UniversalGarbage *self,void *value){
     self->is_main_a_normal_value = true;
 }
 
+void UniversalGarbage_add_especial_return(UniversalGarbage *self,short type,void *value){
+    private_UniversalGarbage_clear_main_return(self);
+    self->main_return = value;
+    self->main_return_type = type;
+    self->is_main_a_normal_value = false;
+}
 
 
