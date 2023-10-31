@@ -4,7 +4,7 @@ typedef  struct UniversalGarbage{
 
     void (*clear_callback)(short type, void*value);
     void *main_return;
-    int main_return_type;
+    short main_return_type;
     bool is_main_a_normal_value;
     void **normal_values;
     int  normal_values_size;
