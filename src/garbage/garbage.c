@@ -59,16 +59,25 @@ short UniversalGarbage_free_including_return(UniversalGarbage *self){
     private_UniversalGarbage_clear_main_return(self);
 
 
-
-
+    for(int i = 0; i < self->normal_values_size; i++){
+        void *current = self->normal_values[i];
+        if(current){
+            free(current);
+        }
+    }
+    free(self->normal_values);
     if(!self->clear_callback && self->especial_values_size){
         return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
     }
 
     for(int i = 0; i < self->especial_values_size; i++){
         privateUniversalGarbageElement  *current = self->especial_values[i];
-        self->clear_callback(current->type,current->value);
+
+        if(current->value){
+            self->clear_callback(current->type,current->value);
+        }
         free(current);
+
     }
     free(self->especial_values);
     return UNIVERSAL_GARBAGE_OK;
