@@ -9,7 +9,11 @@ typedef  struct UniversalGarbage{
 
 }UniversalGarbage;
 
-UniversalGarbage newUniversalGarbage(UniversalGarbage *self,void (*clear_callback)(short type, void*value));
+UniversalGarbage *newUniversalGarbage(UniversalGarbage *self,void (*clear_callback)(short type, void*value));
+
+void UniversalGarbage_add_normal_return(UniversalGarbage *self,void *value);
+
+void UniversalGarbage_add_especial_return(UniversalGarbage *self,short type,void *value);
 
 void UniversalGarbage_add_normal_value(UniversalGarbage *self,void *value);
 
