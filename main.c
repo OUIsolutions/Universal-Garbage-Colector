@@ -24,16 +24,16 @@ Car *newCar(){
 }
 
 void Car_set_name(Car*self,const char *name){
-    self->name = UniversalGarbage_resset_simple_value(
+    self->name = private_UniversalGarbage_resset_simple_value(
             self->garbage,
             self->name,
             strdup(name)
-            );
+    );
 }
 
 
 void Car_set_color(Car*self,const char *color){
-    self->color = UniversalGarbage_resset_simple_value(
+    self->color = private_UniversalGarbage_resset_simple_value(
             self->garbage,
             self->name,
             strdup(color)

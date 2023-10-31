@@ -5,6 +5,7 @@ typedef  struct UniversalGarbage{
     void (*clear_callback)(short type, void*value);
     void *main_return;
     short main_return_type;
+    void *old_value;
     bool is_main_return_a_simple_type;
     void **simple_values;
     int  normal_simple_values_size;
@@ -19,7 +20,7 @@ void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *val
 
 void * UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
 
-void * UniversalGarbage_resset_simple_value(UniversalGarbage *self,void *old_value, void *new_value);
+void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self,  void *new_value);
 
 void * UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value);
 
