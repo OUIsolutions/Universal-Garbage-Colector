@@ -6,12 +6,12 @@
 *.ko
 *.obj
 *.elf
-
+*.pyc
 # Linker output
 *.ilk
 *.map
 *.exp
-
+*__pycache__
 # Precompiled Headers
 *.gch
 *.pch
