@@ -21,11 +21,7 @@ int main(){
             UniversalGarbage_add_simple_value(garbage,new_string);
             sprintf(new_string,"%d\n",i);
         }
-
         final_string = new_string;
-
-        UniversalGarbage_add_simple_value(garbage,new_string);
-
     }
     printf("final %s\n",final_string);
     UniversalGarbage_free(garbage);
