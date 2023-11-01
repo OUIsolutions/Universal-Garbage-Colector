@@ -47,7 +47,7 @@ void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self, void
     if(!self->old_value){
         return NULL;
     }
-    for(int i = 0; i < self->normal_simple_values_size; i++){
+    for(int i = 0; i < self->simple_values_size; i++){
         void *current = self->simple_values[i];
         if(current == self->old_value){
             free(current);
@@ -71,7 +71,7 @@ void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
     }
 
 
-    for(int i = 0; i < self->normal_simple_values_size; i++){
+    for(int i = 0; i < self->simple_values_size; i++){
         bool already_addedd  = self->simple_values[i] == value;
         if(already_addedd){
             return value;
@@ -80,10 +80,10 @@ void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
 
     self->simple_values = (void**)realloc(
             self->simple_values,
-            (self->normal_simple_values_size + 1) * sizeof(void*)
+            (self->simple_values_size + 1) * sizeof(void*)
     );
-    self->simple_values[self->normal_simple_values_size] = value;
-    self->normal_simple_values_size+=1;
+    self->simple_values[self->simple_values_size] = value;
+    self->simple_values_size+=1;
     return  value;
 
 }
@@ -103,7 +103,7 @@ void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, vo
 }
 
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
-    for(int i = 0; i < self->normal_simple_values_size; i++){
+    for(int i = 0; i < self->simple_values_size; i++){
         void *current = self->simple_values[i];
         if(current){
             free(current);

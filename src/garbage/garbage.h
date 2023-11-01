@@ -7,8 +7,10 @@ typedef  struct UniversalGarbage{
     short main_return_type;
     void *old_value;
     bool is_main_return_a_simple_type;
-    void **simple_values;
-    int  normal_simple_values_size;
+
+    privateUniversalGarbageSimpleElement **simple_values;
+    int  simple_values_size;
+    
     privateUniversalGarbageComplexElement **complex_values;
     int complex_values_size;
 
