@@ -10,7 +10,7 @@ typedef  struct UniversalGarbage{
 
     privateUniversalGarbageSimpleElement **simple_values;
     int  simple_values_size;
-    
+
     privateUniversalGarbageComplexElement **complex_values;
     int complex_values_size;
 
