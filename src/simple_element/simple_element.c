@@ -11,3 +11,10 @@ privateUniversalGarbageSimpleElement * new_privateUniversalGarbageSimpleElement(
    self->pointed_value = *pointer;
     return  self;
 }
+
+void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageSimpleElement *self){
+    if(self->pointed_value){
+        free(self->pointed_value);
+    }
+    free(self);
+}

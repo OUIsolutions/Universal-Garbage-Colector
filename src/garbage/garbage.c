@@ -59,10 +59,7 @@ void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, vo
 
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
     for(int i = 0; i < self->simple_values_size; i++){
-        void *current = self->simple_values[i];
-        if(current){
-            free(current);
-        }
+        privateUniversalGarbageSimpleElement_free(self->simple_values[i]);
     }
     free(self->simple_values);
 
