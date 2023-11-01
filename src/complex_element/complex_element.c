@@ -1,6 +1,6 @@
 
-privateUniversalComplexGarbageElement * newprivateUniversalGarbageElement(short type, void *value){
-    privateUniversalComplexGarbageElement *self = (privateUniversalComplexGarbageElement*) malloc(sizeof(privateUniversalComplexGarbageElement));
+privateUniversalGarbageComplexElement * newprivateUniversalGarbageElement(short type, void *value){
+    privateUniversalGarbageComplexElement *self = (privateUniversalGarbageComplexElement*) malloc(sizeof(privateUniversalGarbageComplexElement));
     self->type = type;
     self->value = value;
     return  self;

@@ -6,7 +6,7 @@ UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*v
     self->clear_callback = clear_callback;
     self->is_main_return_a_simple_type = true;
     self->simple_values = (void**)malloc(0);
-    self->complex_values =  (privateUniversalGarbageElement**)malloc(0);
+    self->complex_values =  (privateUniversalGarbageComplexElement**)malloc(0);
     return self;
 }
 
@@ -93,9 +93,9 @@ void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, vo
         return NULL;
     }
 
-    self->complex_values = (privateUniversalGarbageElement**) realloc(
+    self->complex_values = (privateUniversalGarbageComplexElement**) realloc(
                 self->complex_values,
-                (self->complex_values_size + 1 ) * (sizeof (privateUniversalGarbageElement**))
+                (self->complex_values_size + 1 ) * (sizeof (privateUniversalGarbageComplexElement**))
     );
     self->complex_values[self->complex_values_size] = newprivateUniversalGarbageElement(type, value);
     self->complex_values_size+=1;
@@ -112,7 +112,7 @@ short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
     free(self->simple_values);
 
     for(int i = 0; i < self->complex_values_size; i++){
-        privateUniversalGarbageElement  *current = self->complex_values[i];
+        privateUniversalGarbageComplexElement  *current = self->complex_values[i];
 
         if(current->value &&self->clear_callback){
             self->clear_callback(current->type,current->value);

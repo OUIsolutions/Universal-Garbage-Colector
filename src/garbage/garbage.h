@@ -9,7 +9,7 @@ typedef  struct UniversalGarbage{
     bool is_main_return_a_simple_type;
     void **simple_values;
     int  normal_simple_values_size;
-    privateUniversalGarbageElement **complex_values;
+    privateUniversalGarbageComplexElement **complex_values;
     int complex_values_size;
 
 }UniversalGarbage;

@@ -1,10 +1,10 @@
 
-typedef struct privateUniversalComplexGarbageElement{
+typedef struct privateUniversalGarbageComplexElement{
 
     void *value;
     short type;
 
-}privateUniversalComplexGarbageElement;
+}privateUniversalGarbageComplexElement;
 
 
-privateUniversalComplexGarbageElement * newprivateUniversalGarbageElement(short type, void *value);
+privateUniversalGarbageComplexElement * newprivateUniversalGarbageElement(short type, void *value);
