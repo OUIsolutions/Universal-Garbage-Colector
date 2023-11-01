@@ -1,46 +1,39 @@
 
 
-void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self, void *new_value){
-    if(!self->old_value){
-        return NULL;
-    }
+void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self, void **pointer){
+
     for(int i = 0; i < self->simple_values_size; i++){
-        void *current = self->simple_values[i];
-        if(current == self->old_value){
-            free(current);
-            self->simple_values[i] = new_value;
-            self->old_value = NULL;
-            return new_value;
+        privateUniversalGarbageSimpleElement *current = self->simple_values[i];
+        bool resset = current->pointer == pointer;
+        if(resset){
+            if(current->pointed_value){
+                free(current->pointed_value);
+            }
+            current->pointed_value = *pointer;
+            return  *pointer;
         }
     }
     return  NULL;
 }
 
 
-void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
+void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void **pointer){
 
-    if(!value){
+    if(!pointer){
         return NULL;
     }
-    void *possible_resset = private_UniversalGarbage_resset_simple_value(self,value);
+
+    void *possible_resset = private_UniversalGarbage_resset_simple_value(self,pointer);
     if(possible_resset){
         return possible_resset;
     }
 
-
-    for(int i = 0; i < self->simple_values_size; i++){
-        bool already_addedd  = self->simple_values[i] == value;
-        if(already_addedd){
-            return value;
-        }
-    }
-
-    self->simple_values = (void**)realloc(
+    self->simple_values = (privateUniversalGarbageSimpleElement**)realloc(
             self->simple_values,
-            (self->simple_values_size + 1) * sizeof(void*)
+            (self->simple_values_size + 1) * sizeof(privateUniversalGarbageSimpleElement*)
     );
-    self->simple_values[self->simple_values_size] = value;
-    self->simple_values_size+=1;
-    return  value;
 
+    self->simple_values[self->simple_values_size] = new_privateUniversalGarbageSimpleElement(pointer);
+    self->simple_values_size+=1;
+    return  *pointer;
 }
