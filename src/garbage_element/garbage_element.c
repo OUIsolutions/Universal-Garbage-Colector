@@ -8,15 +8,18 @@ privateUniversalGarbageElement * new_privateUniversalGarbageSimpleElement(void (
         privateUniversalGarbageElement
     );
     self->pointer = pointer;
-    self->dealocator_callback = dealocator_callback;
+    self->deallocator_callback = dealocator_callback;
     self->pointed_value = *pointer;
     return  self;
 }
-
-void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
+void privateUniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self){
     if(self->pointed_value){
-        self->dealocator_callback(self->pointed_value);
+        self->deallocator_callback(self->pointed_value);
         self->pointed_value = NULL;
     }
+}
+
+void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
+    privateUniversalGarbageSimpleElement_free_pointed_value(self);
     free(self);
 }
