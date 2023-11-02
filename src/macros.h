@@ -16,6 +16,9 @@
 #define UniversalGarbage_add(garbage,deallocator_callback,value) \
     rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
+#define  UniversalGarbage_remove(garbage,value) \
+    rawUniversalGarbage_remove(garbage,UniversalGarbage_cast(value));
+
 #define UniversalGarbage_add_simple(garbage,value) \
      UniversalGarbage_add(garbage,free,value)
 

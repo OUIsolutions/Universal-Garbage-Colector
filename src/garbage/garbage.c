@@ -74,6 +74,7 @@ void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
     bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
     if(is_the_main_return){
         private_UniversalGarbageSimpleElement_free(self->main_return);
+        *pointer = NULL;
         return;
     }
     const int NOTHING_REMOVED = -1;
@@ -92,10 +93,11 @@ void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
     if(removed_point == NOTHING_REMOVED){
         return;
     }
-
     for(int i= removed_point; i< self->elements_size;i++){
         self->elements[i] = self->elements[i+1];
     }
+
+    *pointer = NULL;
 
 }
 
