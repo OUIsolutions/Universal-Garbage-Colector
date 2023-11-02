@@ -97,9 +97,7 @@ void* UniversalGarbage_add_or_resset(UniversalGarbage *self, void **pointer){
 
 
 
-
-
-short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
+void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
     for(int i = 0; i < self->elements_size; i++){
         privateUniversalGarbageSimpleElement_free(self->elements[i]);
     }
@@ -107,23 +105,13 @@ short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
 
 }
 
-short UniversalGarbage_free_including_return(UniversalGarbage *self){
-
-    short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
-    short main_clear_result = private_UniversalGarbage_clear_main_return(self);
-
+void UniversalGarbage_free_including_return(UniversalGarbage *self){
+    private_UniversalGarbage_free_all_sub_elements(self);
+    private_UniversalGarbage_clear_main_return(self);
     free(self);
-
-    if(universal_clear_result || main_clear_result){
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
-    }
-
-    return UNIVERSAL_GARBAGE_OK;
 }
 
-short UniversalGarbage_free(UniversalGarbage *self){
-    short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
+void UniversalGarbage_free(UniversalGarbage *self){
+    private_UniversalGarbage_free_all_sub_elements(self);
     free(self);
-
-    return universal_clear_result;
 }
