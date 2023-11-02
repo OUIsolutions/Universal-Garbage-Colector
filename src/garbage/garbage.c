@@ -29,7 +29,7 @@ void * UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **point
     if(is_the_main_value){
         self->main_return->pointed_value = *pointer;
     }
-    
+
     for(int i = 0; i < self->elements_size; i++){
 
         privateUniversalGarbageElement *current = self->elements[i];
@@ -91,11 +91,12 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
     if(self->main_return){
         privateUniversalGarbageSimpleElement_free(self->main_return);
     }
-
+    free(self->main_return);
     free(self);
 }
 
 void UniversalGarbage_free(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
+    free(self->main_return);
     free(self);
 }

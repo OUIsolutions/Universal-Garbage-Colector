@@ -25,13 +25,21 @@ char * create_list(long size, bool error){
         strcat(final_string,new_string);
     }
     printf("%s",final_string);
-    UniversalGarbage_free(garbage);
+    if(error){
+        UniversalGarbage_free_including_return(garbage);
+        return NULL;
+    }
 
+    UniversalGarbage_free(garbage);
+    return final_string;
 }
 
 
 
 int main(){
+    char *test_correct = create_list(100,false);
+    printf("correct %s",test_correct);
+    free(test_correct);
 
     return 0;
 }
