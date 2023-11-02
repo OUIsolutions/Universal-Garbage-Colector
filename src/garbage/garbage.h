@@ -18,7 +18,7 @@ void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
 void * UniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
-void * UniversalGarbage_add_or_resset(UniversalGarbage *self, void **pointer);
+void * UniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer);
 
 void private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 

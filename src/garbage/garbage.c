@@ -12,7 +12,6 @@ void * UniversalGarbage_set_return(UniversalGarbage *self,   void (*deallocator_
 
     if(self->main_return){
         privateUniversalGarbageSimpleElement_free_pointed_value(self->main_return);
-        self->main_return->pointer = pointer;
         self->main_return->pointed_value = *pointer;
     }
 
@@ -42,9 +41,7 @@ void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer){
         privateUniversalGarbageElement *current = self->elements[i];
         bool resset = current->pointer == pointer;
         if(resset){
-            if(current->pointed_value){
-                free(current->pointed_value);
-            }
+            privateUniversalGarbageSimpleElement_free_pointed_value(current);
             current->pointed_value = *pointer;
             return  *pointer;
         }
@@ -53,7 +50,7 @@ void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer){
 }
 
 
-void* UniversalGarbage_add_or_resset(UniversalGarbage *self, void **pointer){
+void * UniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
 
     if(!pointer){
         return NULL;
@@ -69,7 +66,7 @@ void* UniversalGarbage_add_or_resset(UniversalGarbage *self, void **pointer){
             (self->elements_size + 1) * sizeof(privateUniversalGarbageElement*)
     );
 
-    self->elements[self->elements_size] = new_privateUniversalGarbageSimpleElement(pointer);
+    self->elements[self->elements_size] = new_privateUniversalGarbageSimpleElement(deallocator_callback,pointer);
     self->elements_size+=1;
     return  *pointer;
 }
@@ -90,7 +87,7 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
     if(self->main_return){
         privateUniversalGarbageSimpleElement_free(self->main_return);
     }
-    
+
     free(self);
 }
 

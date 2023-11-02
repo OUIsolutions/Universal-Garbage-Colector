@@ -1,12 +1,7 @@
 
 #include "src/one.h"
 
-void test( void *dealocator,void *element){
-   
-   void (*casted_dealocator)(void *target);
-    casted_dealocator = reinterpret_cast<void(*)(void*)>(dealocator);
-   casted_dealocator(element);
-}
+
 
 
 int main(){
@@ -33,7 +28,7 @@ int main(){
         strcat(final_string,new_string);
     }
     printf("%s",final_string);
-    test((void*)UniversalGarbage_free,garbage);
+    UniversalGarbage_free(garbage);
 
     return 0;
 }
