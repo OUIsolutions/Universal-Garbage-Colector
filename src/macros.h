@@ -7,10 +7,10 @@
 #define UniversalGarbage_cast(value) ((void**)&value)
 
 #define UniversalGarbage_set_return(garbage,deallocator_callback,value) \
-        rawUniversalGarbage_set_return(garbage,deallocator_callback,UniversalGarbage_cast(value))
+        rawUniversalGarbage_set_return(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
 #define UniversalGarbage_add(garbage,deallocator_callback,value) \
-    rawUniversalGarbage_add(garbage,deallocator_callback,UniversalGarbage_cast(value))
+    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
 #define UniversalGarbage_reallocate(garbage,value) \
     rawUniversalGarbage_reallocate(garbage,UniversalGarbage_cast(value))
