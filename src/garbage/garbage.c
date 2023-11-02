@@ -13,7 +13,7 @@ bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **
     }
     return false;
 }
-void  UniversalGarbage_set_return_raw_func(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
 
     if(self->main_return){
         private_UniversalGarbageSimpleElement_free_pointed_value(self->main_return);
@@ -43,7 +43,7 @@ void  UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **pointe
 
     }
 }
-void  UniversalGarbage_resset_raw_func(UniversalGarbage *self, void **pointer){
+void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
 
     bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
     if(is_the_main_return){
@@ -66,7 +66,7 @@ void  UniversalGarbage_resset_raw_func(UniversalGarbage *self, void **pointer){
 }
 
 
-void  UniversalGarbage_add_or_resset_raw_func(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
+void  rawUniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
 
     if(!pointer){
         return;
