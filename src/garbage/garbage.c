@@ -4,7 +4,7 @@ UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*v
     UniversalGarbage *self = UniversalGarbage_create_empty_struct(self,UniversalGarbage)
     self->clear_callback = clear_callback;
     self->is_main_return_a_simple_type = true;
-    self->simple_values = (privateUniversalGarbageSimpleElement**)malloc(0);
+    self->elements = (privateUniversalGarbageElement**)malloc(0);
     self->complex_values =  (privateUniversalGarbageComplexElement**)malloc(0);
     return self;
 }
@@ -42,48 +42,68 @@ void *UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short typ
     return  value;
 }
 
+void * UniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
 
-void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value){
-    if(!value){
+    for(int i = 0; i < self->elements_size; i++){
+
+        privateUniversalGarbageElement *current = self->elements[i];
+        bool reallocate = current->pointer == pointer;
+
+        if(reallocate){
+            current->pointed_value = *pointer;
+            return *pointer;
+        }
+
+    }
+    return NULL;
+}
+void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer){
+
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageElement *current = self->elements[i];
+        bool resset = current->pointer == pointer;
+        if(resset){
+            if(current->pointed_value){
+                free(current->pointed_value);
+            }
+            current->pointed_value = *pointer;
+            return  *pointer;
+        }
+    }
+    return  NULL;
+}
+
+
+void* UniversalGarbage_add_or_resset(UniversalGarbage *self, void **pointer){
+
+    if(!pointer){
         return NULL;
     }
 
-    self->complex_values = (privateUniversalGarbageComplexElement**) realloc(
-                self->complex_values,
-                (self->complex_values_size + 1 ) * (sizeof (privateUniversalGarbageComplexElement**))
+    void *possible_resset = private_UniversalGarbage_resset(self, pointer);
+    if(possible_resset){
+        return possible_resset;
+    }
+
+    self->elements = (privateUniversalGarbageElement**)realloc(
+            self->elements,
+            (self->elements_size + 1) * sizeof(privateUniversalGarbageElement*)
     );
-    self->complex_values[self->complex_values_size] = newprivateUniversalGarbageElement(type, value);
-    self->complex_values_size+=1;
-    return value;
+
+    self->elements[self->elements_size] = new_privateUniversalGarbageSimpleElement(pointer);
+    self->elements_size+=1;
+    return  *pointer;
 }
 
+
+
+
+
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
-    for(int i = 0; i < self->simple_values_size; i++){
-        privateUniversalGarbageSimpleElement_free(self->simple_values[i]);
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageSimpleElement_free(self->elements[i]);
     }
-    free(self->simple_values);
-
-    for(int i = 0; i < self->complex_values_size; i++){
-        privateUniversalGarbageComplexElement  *current = self->complex_values[i];
-
-        if(current->value &&self->clear_callback){
-            self->clear_callback(current->type,current->value);
-        }
-
-        if(current->value && !self->clear_callback){
-            //these is a potencial error
-            free(current->value);
-        }
-
-        free(current);
-
-    }
-    free(self->complex_values);
-
-    if(!self->clear_callback && self->complex_values_size){
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
-    }
-    return UNIVERSAL_GARBAGE_OK;
+    free(self->elements);
 
 }
 

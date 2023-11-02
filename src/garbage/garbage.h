@@ -7,11 +7,9 @@ typedef  struct UniversalGarbage{
     short main_return_type;
     bool is_main_return_a_simple_type;
 
-    privateUniversalGarbageSimpleElement **simple_values;
-    int  simple_values_size;
+    privateUniversalGarbageElement **elements;
+    int  elements_size;
 
-    privateUniversalGarbageComplexElement **complex_values;
-    int complex_values_size;
 
 }UniversalGarbage;
 
@@ -22,13 +20,12 @@ void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *val
 void * UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
 
 
-void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self,  void **pointer);
+void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
-void * UniversalGarbage_reallocate_simple_value(UniversalGarbage *self, void **pointer);
+void * UniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
-void * UniversalGarbage_add_or_resset_simple_value(UniversalGarbage *self, void **pointer);
+void * UniversalGarbage_add_or_resset(UniversalGarbage *self, void **pointer);
 
-void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
 
 short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 
