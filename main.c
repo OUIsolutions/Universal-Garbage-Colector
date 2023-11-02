@@ -32,7 +32,7 @@ void Car_free(Car *self){
 
 
 int main(){
-
+    UniversalGarbage  *garbage = new_privateUniversalGarbageSimpleElement
     Car  *test = newCar();
     Car_set_name(test,"ferrari");
     Car_set_color(test,"red");

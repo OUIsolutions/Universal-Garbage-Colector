@@ -45,12 +45,12 @@ typedef struct privateUniversalGarbageElement{
     void *pointed_value;
 }privateUniversalGarbageElement;
 
-void privateUniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self);
+void private_UniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self);
 
 
-void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self);
+void private_UniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self);
 
-privateUniversalGarbageElement * new_privateUniversalGarbageSimpleElement(void (*dealocator_callback)(void *element), void **pointer);
+privateUniversalGarbageElement * private_newUniversalGarbageSimpleElement(void (*dealocator_callback)(void *element), void **pointer);
 
 
 
@@ -88,7 +88,7 @@ void UniversalGarbage_free(UniversalGarbage *self);
 
 
 
-privateUniversalGarbageElement * new_privateUniversalGarbageSimpleElement(void (*dealocator_callback)(void *element), void **pointer){
+privateUniversalGarbageElement * private_newUniversalGarbageSimpleElement(void (*dealocator_callback)(void *element), void **pointer){
 
     privateUniversalGarbageElement * self = UniversalGarbage_create_empty_struct(
         self,
@@ -99,14 +99,14 @@ privateUniversalGarbageElement * new_privateUniversalGarbageSimpleElement(void (
     self->pointed_value = *pointer;
     return  self;
 }
-void privateUniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self){
+void private_UniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self){
     if(self->pointed_value){
         self->deallocator_callback(self->pointed_value);
         self->pointed_value = NULL;
     }
 }
 
-void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
+void private_UniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
     privateUniversalGarbageSimpleElement_free_pointed_value(self);
     free(self);
 }
