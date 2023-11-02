@@ -34,12 +34,12 @@ void Car_free(Car *self){
 int main(){
     UniversalGarbage  *garbage = newUniversalGarbage();
     Car  *test = newCar();
+    UniversalGarbage_add(garbage,Car_free,test);
     Car_set_name(test,"ferrari");
     Car_set_color(test,"red");
 
     printf("model:%s\n",test->name);
     printf("color:%s\n",test->color);
-    Car_free(test);
 
     UniversalGarbage_free(garbage);
 }
