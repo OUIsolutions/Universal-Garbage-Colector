@@ -15,6 +15,7 @@ privateUniversalGarbageSimpleElement * new_privateUniversalGarbageSimpleElement(
 void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageSimpleElement *self){
     if(self->pointed_value){
         free(self->pointed_value);
+        self->pointed_value = NULL;
     }
     free(self);
 }
