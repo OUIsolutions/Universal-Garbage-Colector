@@ -1,0 +1,3 @@
+ 
+model:ferrari
+color:red

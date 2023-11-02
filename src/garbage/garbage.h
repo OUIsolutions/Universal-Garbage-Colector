@@ -2,32 +2,32 @@
 
 typedef  struct UniversalGarbage{
 
-    void (*clear_callback)(short type, void*value);
-    void *main_return;
-    short main_return_type;
-    void *old_value;
-    bool is_main_return_a_simple_type;
-    void **simple_values;
-    int  normal_simple_values_size;
-    privateUniversalGarbageElement **complex_values;
-    int complex_values_size;
+    privateUniversalGarbageElement *main_return;
+    privateUniversalGarbageElement **elements;
+    int  elements_size;
+
 
 }UniversalGarbage;
 
-UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value));
+UniversalGarbage * newUniversalGarbage();
 
-void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
 
-void * UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
+bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer);
 
-void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self,  void *new_value);
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer);
 
-void * UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value);
+void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
-void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
 
-short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
+void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer);
 
-short UniversalGarbage_free_including_return(UniversalGarbage *self);
+void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
-short UniversalGarbage_free(UniversalGarbage *self);
+void  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);
+
+void private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
+
+void UniversalGarbage_free_including_return(UniversalGarbage *self);
+
+void UniversalGarbage_free(UniversalGarbage *self);

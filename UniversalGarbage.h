@@ -10,8 +10,6 @@
 
 
 
-#define UNIVERSAL_GARBAGE_OK 0
-#define UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED -1
 
 
 #define UniversalGarbage_create_empty_struct(name,element_type) \
@@ -19,221 +17,295 @@
 *name = (element_type){0};
 
 
+#define UniversalGarbage_cast(value) ((void**)&value)
+
+#define UniversalGarbage_set_return(garbage,deallocator_callback,value) \
+        rawUniversalGarbage_set_return(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
+
+#define UniversalGarbage_set_simple_return(garbage,value) \
+    UniversalGarbage_set_return(garbage,free,value)
+
+
+#define UniversalGarbage_add(garbage,deallocator_callback,value) \
+    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
+
+#define  UniversalGarbage_remove(garbage,value) \
+    rawUniversalGarbage_remove(garbage,UniversalGarbage_cast(value));
+
+
+#define  UniversalGarbage_disconnect(garbage,value) \
+    rawUniversalGarbage_disconnect(garbage,UniversalGarbage_cast(value));
+
+#define UniversalGarbage_add_simple(garbage,value) \
+     UniversalGarbage_add(garbage,free,value)
+
+
+#define UniversalGarbage_reallocate(garbage,value) \
+    rawUniversalGarbage_reallocate(garbage,UniversalGarbage_cast(value))
+
+
+#define UniversalGarbage_resset(garbage,value) \
+    rawUniversalGarbage_resset(garbage,UniversalGarbage_cast(value))
+
+
+
+
+
 
 typedef struct privateUniversalGarbageElement{
-
-    void *value;
-    short type;
-
+    void **pointer;
+    void (*deallocator_callback)(void *element);
+    void *pointed_value;
 }privateUniversalGarbageElement;
 
+void private_UniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self);
 
-privateUniversalGarbageElement * newprivateUniversalGarbageElement(short type, void *value);
+
+void private_UniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self);
+
+privateUniversalGarbageElement * private_newUniversalGarbageSimpleElement(void (*dealocator_callback)(void *element), void **pointer);
 
 
 
 typedef  struct UniversalGarbage{
 
-    void (*clear_callback)(short type, void*value);
-    void *main_return;
-    short main_return_type;
-    void *old_value;
-    bool is_main_return_a_simple_type;
-    void **simple_values;
-    int  normal_simple_values_size;
-    privateUniversalGarbageElement **complex_values;
-    int complex_values_size;
+    privateUniversalGarbageElement *main_return;
+    privateUniversalGarbageElement **elements;
+    int  elements_size;
+
 
 }UniversalGarbage;
 
-UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value));
-
-void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
-
-void * UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
-
-void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self,  void *new_value);
-
-void * UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value);
-
-void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
-
-short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
-
-short UniversalGarbage_free_including_return(UniversalGarbage *self);
-
-short UniversalGarbage_free(UniversalGarbage *self);
+UniversalGarbage * newUniversalGarbage();
 
 
+bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer);
+
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer);
+
+void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
+
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
+
+void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer);
+
+void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
+
+void  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);
+
+void private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
+
+void UniversalGarbage_free_including_return(UniversalGarbage *self);
+
+void UniversalGarbage_free(UniversalGarbage *self);
 
 
 
-privateUniversalGarbageElement * newprivateUniversalGarbageElement(short type, void *value){
-    privateUniversalGarbageElement *self = (privateUniversalGarbageElement*) malloc(sizeof(privateUniversalGarbageElement));
-    self->type = type;
-    self->value = value;
+
+
+
+
+privateUniversalGarbageElement * private_newUniversalGarbageSimpleElement(void (*dealocator_callback)(void *element), void **pointer){
+
+    privateUniversalGarbageElement * self = UniversalGarbage_create_empty_struct(
+        self,
+        privateUniversalGarbageElement
+    );
+    self->pointer = pointer;
+    self->deallocator_callback = dealocator_callback;
+    self->pointed_value = *pointer;
     return  self;
+}
+void private_UniversalGarbageSimpleElement_free_pointed_value(privateUniversalGarbageElement *self){
+    if(self->pointed_value){
+        self->deallocator_callback(self->pointed_value);
+        self->pointed_value = NULL;
+    }
+}
+
+void private_UniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
+    private_UniversalGarbageSimpleElement_free_pointed_value(self);
+    free(self);
 }
 
 
 
 
-
-UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value)){
-    UniversalGarbage *self = (UniversalGarbage*)malloc(sizeof (UniversalGarbage));
-    *self = (UniversalGarbage){0};
-    self->clear_callback = clear_callback;
-    self->is_main_return_a_simple_type = true;
-    self->simple_values = (void**)malloc(0);
-    self->complex_values =  (privateUniversalGarbageElement**)malloc(0);
+UniversalGarbage * newUniversalGarbage(){
+    UniversalGarbage *self = UniversalGarbage_create_empty_struct(self,UniversalGarbage)
+    self->elements = (privateUniversalGarbageElement**)malloc(0);
     return self;
 }
 
 
-short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
+bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer){
+    if(self->main_return){
+        return  self->main_return->pointer == pointer;
+    }
+    return false;
+}
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer){
+
+    if(self->main_return){
+        private_UniversalGarbageSimpleElement_free_pointed_value(self->main_return);
+        self->main_return->pointed_value = *pointer;
+    }
+
     if(!self->main_return){
-        return UNIVERSAL_GARBAGE_OK;
+        void (*dealocator_callback)(void *element);
+        #ifdef __cplusplus
+                dealocator_callback =reinterpret_cast<void(*)(void*)>(release_callback);
+        #else
+                dealocator_callback = (void*)(void*)release_callback;
+        #endif
+        self->main_return = private_newUniversalGarbageSimpleElement(dealocator_callback, pointer);
     }
-    if(self->is_main_return_a_simple_type){
+}
+
+void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
+        self->main_return->pointed_value = *pointer;
+    }
+
+    for(int i = 0; i < self->elements_size; i++){
+
+        privateUniversalGarbageElement *current = self->elements[i];
+        bool reallocate = current->pointer == pointer;
+
+        if(reallocate){
+            current->pointed_value = *pointer;
+
+        }
+
+    }
+}
+void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
+
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
+        private_UniversalGarbageSimpleElement_free_pointed_value(self->main_return);
+        self->main_return->pointed_value = *pointer;
+        return;
+    }
+
+
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageElement *current = self->elements[i];
+        bool resset = current->pointer == pointer;
+        if(resset){
+            private_UniversalGarbageSimpleElement_free_pointed_value(current);
+            current->pointed_value = *pointer;
+            return;
+        }
+    }
+
+}
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
+        private_UniversalGarbageSimpleElement_free(self->main_return);
+        *pointer = NULL;
+        return;
+    }
+    const int NOTHING_REMOVED = -1;
+    int removed_point = NOTHING_REMOVED;
+
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageElement *current = self->elements[i];
+        if(current->pointer == pointer){
+            private_UniversalGarbageSimpleElement_free(current);
+            self->elements_size-=1;
+            removed_point = i;
+            break;
+        }
+    }
+
+    if(removed_point == NOTHING_REMOVED){
+        return;
+    }
+    for(int i= removed_point; i< self->elements_size;i++){
+        self->elements[i] = self->elements[i+1];
+    }
+
+    *pointer = NULL;
+
+}
+void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer){
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
         free(self->main_return);
-        return UNIVERSAL_GARBAGE_OK;
-    }
-    if(!self->clear_callback){
-        free(self->main_return);
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
+        return;
     }
 
-    self->clear_callback(self->main_return_type,self->main_return);
-    return  UNIVERSAL_GARBAGE_OK;
-}
+    const int NOTHING_REMOVED = -1;
+    int removed_point = NOTHING_REMOVED;
 
-void *UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value){
-    private_UniversalGarbage_clear_main_return(self);
-    self->main_return = value;
-    self->is_main_return_a_simple_type = true;
-    return  value;
-}
-
-void *UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value){
-    private_UniversalGarbage_clear_main_return(self);
-    self->main_return = value;
-    self->main_return_type = type;
-    self->is_main_return_a_simple_type = false;
-    return  value;
-}
-
-void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self, void *new_value){
-    if(!self->old_value){
-        return NULL;
-    }
-    for(int i = 0; i < self->normal_simple_values_size; i++){
-        void *current = self->simple_values[i];
-        if(current == self->old_value){
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageElement *current = self->elements[i];
+        if(current->pointer == pointer){
             free(current);
-            self->simple_values[i] = new_value;
-            self->old_value = NULL;
-            return new_value;
+            self->elements_size-=1;
+            removed_point = i;
+            break;
         }
     }
-    return  NULL;
+
+    if(removed_point == NOTHING_REMOVED){
+        return;
+    }
+    for(int i= removed_point; i< self->elements_size;i++){
+        self->elements[i] = self->elements[i+1];
+    }
+
 }
+void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, void **pointer){
 
-
-void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void *value){
-
-    if(!value){
-        return NULL;
-    }
-    void *possible_resset = private_UniversalGarbage_resset_simple_value(self,value);
-    if(possible_resset){
-        return possible_resset;
+    if(!pointer){
+        return;
     }
 
 
-    for(int i = 0; i < self->normal_simple_values_size; i++){
-        bool already_addedd  = self->simple_values[i] == value;
-        if(already_addedd){
-            return value;
-        }
-    }
-
-    self->simple_values = (void**)realloc(
-            self->simple_values,
-            (self->normal_simple_values_size + 1) * sizeof(void*)
+    self->elements = (privateUniversalGarbageElement**)realloc(
+            self->elements,
+            (self->elements_size + 1) * sizeof(privateUniversalGarbageElement*)
     );
-    self->simple_values[self->normal_simple_values_size] = value;
-    self->normal_simple_values_size+=1;
-    return  value;
+    void (*dealocator_callback)(void *element);
+#ifdef __cplusplus
+    dealocator_callback =reinterpret_cast<void(*)(void*)>(release_callback);
+#else
+    dealocator_callback = (void*)(void*)release_callback;
+
+#endif
+    self->elements[self->elements_size] = private_newUniversalGarbageSimpleElement(dealocator_callback, pointer);
+    self->elements_size+=1;
+}
+
+
+
+void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
+    for(int i = 0; i < self->elements_size; i++){
+        private_UniversalGarbageSimpleElement_free(self->elements[i]);
+    }
+    free(self->elements);
 
 }
 
-void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value){
-    if(!value){
-        return NULL;
+void UniversalGarbage_free_including_return(UniversalGarbage *self){
+    private_UniversalGarbage_free_all_sub_elements(self);
+
+    if(self->main_return){
+        private_UniversalGarbageSimpleElement_free(self->main_return);
     }
-
-    self->complex_values = (privateUniversalGarbageElement**) realloc(
-                self->complex_values,
-                (self->complex_values_size + 1 ) * (sizeof (privateUniversalGarbageElement**))
-    );
-    self->complex_values[self->complex_values_size] = newprivateUniversalGarbageElement(type, value);
-    self->complex_values_size+=1;
-    return value;
-}
-
-short private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
-    for(int i = 0; i < self->normal_simple_values_size; i++){
-        void *current = self->simple_values[i];
-        if(current){
-            free(current);
-        }
-    }
-    free(self->simple_values);
-
-    for(int i = 0; i < self->complex_values_size; i++){
-        privateUniversalGarbageElement  *current = self->complex_values[i];
-
-        if(current->value &&self->clear_callback){
-            self->clear_callback(current->type,current->value);
-        }
-
-        if(current->value && !self->clear_callback){
-            //these is a potencial error
-            free(current->value);
-        }
-
-        free(current);
-
-    }
-    free(self->complex_values);
-
-    if(!self->clear_callback && self->complex_values_size){
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
-    }
-    return UNIVERSAL_GARBAGE_OK;
-
-}
-
-short UniversalGarbage_free_including_return(UniversalGarbage *self){
-
-    short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
-    short main_clear_result = private_UniversalGarbage_clear_main_return(self);
-
     free(self);
-
-    if(universal_clear_result || main_clear_result){
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
-    }
-
-    return UNIVERSAL_GARBAGE_OK;
 }
 
-short UniversalGarbage_free(UniversalGarbage *self){
-    short universal_clear_result = private_UniversalGarbage_free_all_sub_elements(self);
+void UniversalGarbage_free(UniversalGarbage *self){
+    private_UniversalGarbage_free_all_sub_elements(self);
+    free(self->main_return);
     free(self);
-
-    return universal_clear_result;
 }
+
 
 
 
