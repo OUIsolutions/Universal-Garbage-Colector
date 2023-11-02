@@ -18,6 +18,9 @@ void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callb
 
 void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
+
+
 void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
 void  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);

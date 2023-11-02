@@ -70,7 +70,34 @@ void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
     }
 
 }
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
+        private_UniversalGarbageSimpleElement_free(self->main_return);
+        return;
+    }
+    const int NOTHING_REMOVED = -1;
+    int removed_point = NOTHING_REMOVED;
 
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageElement *current = self->elements[i];
+        if(current->pointer == pointer){
+            private_UniversalGarbageSimpleElement_free(current);
+            self->elements_size-=1;
+            removed_point = i;
+            break;
+        }
+    }
+
+    if(removed_point == NOTHING_REMOVED){
+        return;
+    }
+
+    for(int i= removed_point; i< self->elements_size;i++){
+        self->elements[i] = self->elements[i+1];
+    }
+
+}
 
 void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, void **pointer){
 
