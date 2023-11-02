@@ -2,7 +2,7 @@
 #include "src/one.h"
 
 
-char * create_list(long size, bool error){
+char * create_list(long size, bool generate_error){
     UniversalGarbage  *garbage = newUniversalGarbage();
 
     char *final_string = (char*)calloc(1,sizeof(char));
@@ -11,7 +11,7 @@ char * create_list(long size, bool error){
     char *new_string = NULL;
     UniversalGarbage_add(garbage, free, new_string);
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < size; i++){
 
         new_string  = (char*)calloc(20,sizeof(char));
         UniversalGarbage_resset(garbage, new_string);
@@ -24,7 +24,8 @@ char * create_list(long size, bool error){
 
         strcat(final_string,new_string);
     }
-    if(error){
+
+    if(generate_error){
         UniversalGarbage_free_including_return(garbage);
         return NULL;
     }
@@ -36,14 +37,18 @@ char * create_list(long size, bool error){
 
 
 int main(){
-    char *test_correct = create_list(100,false);
-    printf("correct %s",test_correct);
-    free(test_correct);
 
-    char *test_incorrect = create_list(100,true);
-    if(!test_incorrect){
-        printf("incorrect is NULL\n");
-    }
+    UniversalGarbage *garbage = newUniversalGarbage();
+    char *value_a = create_list(5,false);
+    UniversalGarbage_add(garbage,free,value_a);
+
+    char *value_b = create_list(5,true);
+    UniversalGarbage_add(garbage,free,value_b);
+
+    printf("value a:\n%s\n",value_a);
+    printf("value b:\n%s\n",value_b);
+
+    UniversalGarbage_free(garbage);
 
     return 0;
 }
