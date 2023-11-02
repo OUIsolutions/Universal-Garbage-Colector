@@ -7,36 +7,18 @@ UniversalGarbage * newUniversalGarbage(){
 }
 
 
-short private_UniversalGarbage_clear_main_return(UniversalGarbage *self){
+
+void * UniversalGarbage_set_return(UniversalGarbage *self,   void (*deallocator_callback)(void *element), void **pointer){
+
+    if(self->main_return){
+        privateUniversalGarbageSimpleElement_free_pointed_value(self->main_return);
+        self->main_return->pointer = pointer;
+        self->main_return->pointed_value = *pointer;
+    }
+
     if(!self->main_return){
-        return UNIVERSAL_GARBAGE_OK;
+        self->main_return = new_privateUniversalGarbageSimpleElement(deallocator_callback,pointer);
     }
-    if(self->is_main_return_a_simple_type){
-        free(self->main_return);
-        return UNIVERSAL_GARBAGE_OK;
-    }
-    if(!self->clear_callback){
-        free(self->main_return);
-        return UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED;
-    }
-
-    self->clear_callback(self->main_return_type,self->main_return);
-    return  UNIVERSAL_GARBAGE_OK;
-}
-
-void *UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value){
-    private_UniversalGarbage_clear_main_return(self);
-    self->main_return = value;
-    self->is_main_return_a_simple_type = true;
-    return  value;
-}
-
-void *UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value){
-    private_UniversalGarbage_clear_main_return(self);
-    self->main_return = value;
-    self->main_return_type = type;
-    self->is_main_return_a_simple_type = false;
-    return  value;
 }
 
 void * UniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
@@ -104,7 +86,11 @@ void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
 
 void UniversalGarbage_free_including_return(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
-    private_UniversalGarbage_clear_main_return(self);
+
+    if(self->main_return){
+        privateUniversalGarbageSimpleElement_free(self->main_return);
+    }
+    
     free(self);
 }
 

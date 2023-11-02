@@ -11,9 +11,7 @@ typedef  struct UniversalGarbage{
 
 UniversalGarbage * newUniversalGarbage();
 
-void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
-
-void * UniversalGarbage_set_complex_type_return(UniversalGarbage *self, short type, void *value);
+void * UniversalGarbage_set_return(UniversalGarbage *self,   void (*deallocator_callback)(void *element), void **pointer);
 
 
 void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer);
