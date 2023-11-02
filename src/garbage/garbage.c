@@ -104,7 +104,6 @@ void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer){
     bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
     if(is_the_main_return){
         free(self->main_return);
-        *pointer = NULL;
         return;
     }
 
@@ -128,7 +127,6 @@ void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer){
         self->elements[i] = self->elements[i+1];
     }
 
-    *pointer = NULL;
 }
 void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, void **pointer){
 
