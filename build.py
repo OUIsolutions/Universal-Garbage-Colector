@@ -24,4 +24,4 @@ test.start_test()
 
 create_exemples()
 ct.include_code_in_markdown('README.md',save_file=True)
-zip_folder('CHashManipulator')
+zip_folder('UniversalGarbage')

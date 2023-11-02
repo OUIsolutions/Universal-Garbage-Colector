@@ -7,6 +7,7 @@
 *.obj
 *.elf
 *.pyc
+out_folder
 # Linker output
 *.ilk
 *.map
