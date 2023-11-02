@@ -6,10 +6,10 @@ char * create_list(long size, bool generate_error){
     UniversalGarbage  *garbage = newUniversalGarbage();
 
     char *final_string = (char*)calloc(1,sizeof(char));
-    UniversalGarbage_set_return(garbage, free, final_string);
+    UniversalGarbage_set_simple_return(garbage, final_string);
 
     char *new_string = NULL;
-    UniversalGarbage_add(garbage, free, new_string);
+    UniversalGarbage_add_simple(garbage, new_string);
 
     for(int i = 0; i < size; i++){
 

@@ -22,8 +22,16 @@
 #define UniversalGarbage_set_return(garbage,deallocator_callback,value) \
         rawUniversalGarbage_set_return(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
+#define UniversalGarbage_set_simple_return(garbage,value) \
+    UniversalGarbage_set_return(garbage,free,value)
+
+
 #define UniversalGarbage_add(garbage,deallocator_callback,value) \
     rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
+
+#define UniversalGarbage_add_simple(garbage,value) \
+     UniversalGarbage_add(garbage,free,value)
+
 
 #define UniversalGarbage_reallocate(garbage,value) \
     rawUniversalGarbage_reallocate(garbage,UniversalGarbage_cast(value))
@@ -69,6 +77,9 @@ bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **
 void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer);
 
 void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
+
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
+
 
 void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
@@ -182,7 +193,34 @@ void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
     }
 
 }
+void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
+        private_UniversalGarbageSimpleElement_free(self->main_return);
+        return;
+    }
+    const int NOTHING_REMOVED = -1;
+    int removed_point = NOTHING_REMOVED;
 
+    for(int i = 0; i < self->elements_size; i++){
+        privateUniversalGarbageElement *current = self->elements[i];
+        if(current->pointer == pointer){
+            private_UniversalGarbageSimpleElement_free(current);
+            self->elements_size-=1;
+            removed_point = i;
+            break;
+        }
+    }
+
+    if(removed_point == NOTHING_REMOVED){
+        return;
+    }
+
+    for(int i= removed_point; i< self->elements_size;i++){
+        self->elements[i] = self->elements[i+1];
+    }
+
+}
 
 void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, void **pointer){
 
