@@ -15,7 +15,7 @@ privateUniversalGarbageElement * new_privateUniversalGarbageSimpleElement(void (
 
 void privateUniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
     if(self->pointed_value){
-        free(self->pointed_value);
+        self->dealocator_callback(self->pointed_value);
         self->pointed_value = NULL;
     }
     free(self);
