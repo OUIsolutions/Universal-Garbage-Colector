@@ -22,6 +22,14 @@ void * UniversalGarbage_set_return_raw_func(UniversalGarbage *self, void (*deall
 
 void * UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **pointer){
 
+    bool is_the_main_value = false;
+    if(self->main_return){
+        is_the_main_value = self->main_return->pointer == pointer;
+    }
+    if(is_the_main_value){
+        self->main_return->pointed_value = *pointer;
+    }
+    
     for(int i = 0; i < self->elements_size; i++){
 
         privateUniversalGarbageElement *current = self->elements[i];
