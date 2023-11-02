@@ -9,6 +9,7 @@
 *.pyc
 # Linker output
 *.ilk
+main.c
 *.map
 *.exp
 *__pycache__
