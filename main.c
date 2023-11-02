@@ -12,7 +12,7 @@ Car *newCar(){
     self->garbage = newUniversalGarbage();
     UniversalGarbage_add(self->garbage,free,self);
     UniversalGarbage_add(self->garbage,free,self->name);
-    UniversalGarbage_add(self->garbage,free,self->color);
+    UniversalGarbage_add(self->garbage, free, self->color);
     return self;
 
 }
