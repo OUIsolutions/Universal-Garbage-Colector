@@ -1,11 +1,8 @@
 
 
-UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value)){
+UniversalGarbage * newUniversalGarbage(){
     UniversalGarbage *self = UniversalGarbage_create_empty_struct(self,UniversalGarbage)
-    self->clear_callback = clear_callback;
-    self->is_main_return_a_simple_type = true;
     self->elements = (privateUniversalGarbageElement**)malloc(0);
-    self->complex_values =  (privateUniversalGarbageComplexElement**)malloc(0);
     return self;
 }
 

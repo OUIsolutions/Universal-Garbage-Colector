@@ -2,18 +2,14 @@
 
 typedef  struct UniversalGarbage{
 
-    void (*clear_callback)(short type, void*value);
-    void *main_return;
-    short main_return_type;
-    bool is_main_return_a_simple_type;
-
+    privateUniversalGarbageElement *main_return;
     privateUniversalGarbageElement **elements;
     int  elements_size;
 
 
 }UniversalGarbage;
 
-UniversalGarbage * newUniversalGarbage(void (*clear_callback)(short type, void*value));
+UniversalGarbage * newUniversalGarbage();
 
 void * UniversalGarbage_set_simple_type_return(UniversalGarbage *self, void *value);
 
