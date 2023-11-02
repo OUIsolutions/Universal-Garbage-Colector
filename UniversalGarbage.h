@@ -10,8 +10,6 @@
 
 
 
-#define UNIVERSAL_GARBAGE_OK 0
-#define UNIVERSAL_GARBAGE_CLEAR_CALBACK_NOT_PROVIDED -1
 
 
 #define UniversalGarbage_create_empty_struct(name,element_type) \
@@ -22,17 +20,17 @@
 #define UniversalGarbage_cast(value) ((void**)&value)
 
 #define UniversalGarbage_set_return(garbage,deallocator_callback,value) \
-        UniversalGarbage_set_return_raw_func(garbage,deallocator_callback,UniversalGarbage_cast(value))
+        rawUniversalGarbage_set_return(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
 #define UniversalGarbage_add(garbage,deallocator_callback,value) \
-    UniversalGarbage_add_or_resset_raw_func(garbage,deallocator_callback,UniversalGarbage_cast(value))
+    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
 #define UniversalGarbage_reallocate(garbage,value) \
-    UniversalGarbage_reallocate_raw_func(garbage,UniversalGarbage_cast(value))
+    rawUniversalGarbage_reallocate(garbage,UniversalGarbage_cast(value))
 
 
 #define UniversalGarbage_resset(garbage,value) \
-    UniversalGarbage_resset_raw_func(garbage,UniversalGarbage_cast(value))
+    rawUniversalGarbage_resset(garbage,UniversalGarbage_cast(value))
 
 
 
@@ -68,13 +66,13 @@ UniversalGarbage * newUniversalGarbage();
 
 bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_set_return(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer);
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer);
 
 void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
 void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer);
+void  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);
 
 void private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 
@@ -107,7 +105,7 @@ void private_UniversalGarbageSimpleElement_free_pointed_value(privateUniversalGa
 }
 
 void private_UniversalGarbageSimpleElement_free(privateUniversalGarbageElement *self){
-    privateUniversalGarbageSimpleElement_free_pointed_value(self);
+    private_UniversalGarbageSimpleElement_free_pointed_value(self);
     free(self);
 }
 
@@ -125,16 +123,23 @@ bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **
     if(self->main_return){
         return  self->main_return->pointer == pointer;
     }
+    return false;
 }
-void  rawUniversalGarbage_set_return(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer){
 
     if(self->main_return){
-        privateUniversalGarbageSimpleElement_free_pointed_value(self->main_return);
+        private_UniversalGarbageSimpleElement_free_pointed_value(self->main_return);
         self->main_return->pointed_value = *pointer;
     }
 
     if(!self->main_return){
-        self->main_return = new_privateUniversalGarbageSimpleElement(deallocator_callback,pointer);
+        void (*dealocator_callback)(void *element);
+        #ifdef __cplusplus
+                dealocator_callback =reinterpret_cast<void(*)(void*)>(release_callback);
+        #else
+                dealocator_callback = (void*)(void*)release_callback;
+        #endif
+        self->main_return = private_newUniversalGarbageSimpleElement(dealocator_callback, pointer);
     }
 }
 
@@ -160,7 +165,7 @@ void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
 
     bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
     if(is_the_main_return){
-        privateUniversalGarbageSimpleElement_free_pointed_value(self->main_return);
+        private_UniversalGarbageSimpleElement_free_pointed_value(self->main_return);
         self->main_return->pointed_value = *pointer;
         return;
     }
@@ -170,7 +175,7 @@ void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
         privateUniversalGarbageElement *current = self->elements[i];
         bool resset = current->pointer == pointer;
         if(resset){
-            privateUniversalGarbageSimpleElement_free_pointed_value(current);
+            private_UniversalGarbageSimpleElement_free_pointed_value(current);
             current->pointed_value = *pointer;
             return;
         }
@@ -179,7 +184,7 @@ void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
 }
 
 
-void  rawUniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
+void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, void **pointer){
 
     if(!pointer){
         return;
@@ -190,8 +195,14 @@ void  rawUniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocat
             self->elements,
             (self->elements_size + 1) * sizeof(privateUniversalGarbageElement*)
     );
+    void (*dealocator_callback)(void *element);
+#ifdef __cplusplus
+    dealocator_callback =reinterpret_cast<void(*)(void*)>(release_callback);
+#else
+    dealocator_callback = (void*)(void*)release_callback;
 
-    self->elements[self->elements_size] = new_privateUniversalGarbageSimpleElement(deallocator_callback,pointer);
+#endif
+    self->elements[self->elements_size] = private_newUniversalGarbageSimpleElement(dealocator_callback, pointer);
     self->elements_size+=1;
 }
 
@@ -199,7 +210,7 @@ void  rawUniversalGarbage_add_or_resset(UniversalGarbage *self, void (*deallocat
 
 void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
     for(int i = 0; i < self->elements_size; i++){
-        privateUniversalGarbageSimpleElement_free(self->elements[i]);
+        private_UniversalGarbageSimpleElement_free(self->elements[i]);
     }
     free(self->elements);
 
@@ -209,7 +220,7 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
 
     if(self->main_return){
-        privateUniversalGarbageSimpleElement_free(self->main_return);
+        private_UniversalGarbageSimpleElement_free(self->main_return);
     }
     free(self);
 }

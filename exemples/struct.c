@@ -1,5 +1,6 @@
 
-#include "src/one.h"
+
+#include "UniversalGarbage.h"
 
 typedef struct Car{
     char *name;
@@ -12,7 +13,7 @@ Car *newCar(){
     self->garbage = newUniversalGarbage();
     UniversalGarbage_add(self->garbage,free,self);
     UniversalGarbage_add(self->garbage,free,self->name);
-    UniversalGarbage_add(self->garbage, free, self->color);
+    UniversalGarbage_add(self->garbage,free,self->color);
     return self;
 
 }
@@ -32,16 +33,13 @@ void Car_free(Car *self){
 
 
 int main(){
-    UniversalGarbage  *garbage = newUniversalGarbage();
+
     Car  *test = newCar();
-    UniversalGarbage_add(garbage,Car_free,test);
     Car_set_name(test,"ferrari");
     Car_set_color(test,"red");
 
     printf("model:%s\n",test->name);
     printf("color:%s\n",test->color);
-
-
-    UniversalGarbage_free(garbage);
+    Car_free(test);
 }
 
