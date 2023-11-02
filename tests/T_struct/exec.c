@@ -35,8 +35,8 @@ void Car_free(Car *self){
 int main(){
     UniversalGarbage *garbage = newUniversalGarbage();
     Car  *test = newCar();
-    //we set UniversalGarbage_free as the dealocator callback
-    UniversalGarbage_add(garbage, UniversalGarbage_free,test);
+    //we set Car_free as the dealocator callback
+    UniversalGarbage_add(garbage, Car_free,test);
     Car_set_name(test,"ferrari");
     Car_set_color(test,"red");
 
