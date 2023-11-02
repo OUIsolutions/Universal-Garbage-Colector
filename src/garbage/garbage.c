@@ -11,6 +11,7 @@ bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **
     if(self->main_return){
         return  self->main_return->pointer == pointer;
     }
+    return false;
 }
 void  UniversalGarbage_set_return_raw_func(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
 
