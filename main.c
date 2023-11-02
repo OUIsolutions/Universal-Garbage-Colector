@@ -8,6 +8,7 @@ int main(){
     UniversalGarbage  *garbage = newUniversalGarbage();
 
 
+
     char *final_string = (char*)calloc(1,sizeof(char));
     UniversalGarbage_add_or_resset(garbage,free, UniversalCast(final_string));
 
