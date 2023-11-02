@@ -22,7 +22,11 @@ void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callb
 
     if(!self->main_return){
         void (*dealocator_callback)(void *element);
-        dealocator_callback = (void*)(void*)release_callback;
+        #ifdef __cplusplus
+                dealocator_callback =reinterpret_cast<void(*)(void*)>(release_callback);
+        #else
+                dealocator_callback = (void*)(void*)release_callback;
+        #endif
         self->main_return = private_newUniversalGarbageSimpleElement(dealocator_callback, pointer);
     }
 }
@@ -80,7 +84,12 @@ void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, vo
             (self->elements_size + 1) * sizeof(privateUniversalGarbageElement*)
     );
     void (*dealocator_callback)(void *element);
+#ifdef __cplusplus
+    dealocator_callback =reinterpret_cast<void(*)(void*)>(release_callback);
+#else
     dealocator_callback = (void*)(void*)release_callback;
+
+#endif
     self->elements[self->elements_size] = private_newUniversalGarbageSimpleElement(dealocator_callback, pointer);
     self->elements_size+=1;
 }
