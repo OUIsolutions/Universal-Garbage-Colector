@@ -10,6 +10,13 @@ so you just need to download and include the **UniversalGarbage.h** header into 
 If you want to use with full folder, to make modifications into the source code, you can donwload
 the entire **src** project, and include with **src/one.h**
 
+# Understanding Functions and Macros
+
+
+## UniversalGarbage_add
+User the **UniversalGarbage_add** to add a new value to the garbage (it can be NULL)
+
+
 
 
 # Exemples
