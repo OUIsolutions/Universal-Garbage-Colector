@@ -8,7 +8,7 @@ UniversalGarbage * newUniversalGarbage(){
 
 
 
-void * UniversalGarbage_set_return(UniversalGarbage *self,   void (*deallocator_callback)(void *element), void **pointer){
+void * UniversalGarbage_set_return_raw_func(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
 
     if(self->main_return){
         privateUniversalGarbageSimpleElement_free_pointed_value(self->main_return);
