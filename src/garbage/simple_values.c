@@ -28,7 +28,7 @@ void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self, void
 }
 
 
-void* UniversalGarbage_add_simple_value(UniversalGarbage *self, void **pointer){
+void* UniversalGarbage_add_or_resset_simple_value(UniversalGarbage *self, void **pointer){
 
     if(!pointer){
         return NULL;

@@ -26,7 +26,7 @@ void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self,  voi
 
 void * UniversalGarbage_reallocate_simple_value(UniversalGarbage *self, void **pointer);
 
-void * UniversalGarbage_add_simple_value(UniversalGarbage *self, void **pointer);
+void * UniversalGarbage_add_or_resset_simple_value(UniversalGarbage *self, void **pointer);
 
 void * UniversalGarbage_add_complex_value(UniversalGarbage *self, short type, void *value);
 
