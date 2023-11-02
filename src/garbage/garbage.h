@@ -14,13 +14,13 @@ UniversalGarbage * newUniversalGarbage();
 
 bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_set_return(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer);
+void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer);
 
 void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
 void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_add(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer);
+void  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);
 
 void private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 
