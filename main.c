@@ -34,7 +34,6 @@ void Car_free(Car *self){
 int main(){
     UniversalGarbage  *garbage = newUniversalGarbage();
     Car  *test = newCar();
-    UniversalGarbage_reallocate_raw_func()
     Car_set_name(test,"ferrari");
     Car_set_color(test,"red");
 
