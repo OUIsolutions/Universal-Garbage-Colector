@@ -12,7 +12,6 @@ out_folder
 *.ilk
 *.map
 *.exp
-*main
 *__pycache__
 # Precompiled Headers
 *.gch
