@@ -14,7 +14,7 @@ UniversalGarbage * newUniversalGarbage();
 void * UniversalGarbage_set_return(UniversalGarbage *self,   void (*deallocator_callback)(void *element), void **pointer);
 
 
-void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer);
+void * UniversalGarbage_resset_raw_func(UniversalGarbage *self, void **pointer);
 
 void * UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **pointer);
 

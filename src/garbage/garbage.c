@@ -35,7 +35,7 @@ void * UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **point
     }
     return NULL;
 }
-void * private_UniversalGarbage_resset(UniversalGarbage *self, void **pointer){
+void * UniversalGarbage_resset_raw_func(UniversalGarbage *self, void **pointer){
 
     for(int i = 0; i < self->elements_size; i++){
         privateUniversalGarbageElement *current = self->elements[i];
@@ -56,10 +56,6 @@ void * UniversalGarbage_add_or_resset_raw_func(UniversalGarbage *self, void (*de
         return NULL;
     }
 
-    void *possible_resset = private_UniversalGarbage_resset(self, pointer);
-    if(possible_resset){
-        return possible_resset;
-    }
 
     self->elements = (privateUniversalGarbageElement**)realloc(
             self->elements,

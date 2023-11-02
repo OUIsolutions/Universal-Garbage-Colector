@@ -10,14 +10,15 @@ int main(){
 
 
     char *final_string = (char*)calloc(1,sizeof(char));
-    UniversalGarbage_add_or_resset(garbage, free,final_string);
+    UniversalGarbage_add(garbage, free, final_string);
 
     char *new_string = NULL;
+    UniversalGarbage_add(garbage, free, new_string);
 
     for(int i = 0; i < 100; i++){
 
         new_string  = (char*)calloc(20,sizeof(char));
-        UniversalGarbage_add_or_resset(garbage, free,new_string);
+        UniversalGarbage_resset(garbage, new_string);
         sprintf(new_string,"%d\n",i);
 
         final_string =(char*)realloc(final_string,
