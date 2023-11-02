@@ -10,6 +10,8 @@
 out_folder
 # Linker output
 *.ilk
+main.c
+main
 *.map
 *.exp
 *__pycache__
