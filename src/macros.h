@@ -19,6 +19,10 @@
 #define  UniversalGarbage_remove(garbage,value) \
     rawUniversalGarbage_remove(garbage,UniversalGarbage_cast(value));
 
+
+#define  UniversalGarbage_disconnect(garbage,value) \
+    rawUniversalGarbage_disconnect(garbage,UniversalGarbage_cast(value));
+
 #define UniversalGarbage_add_simple(garbage,value) \
      UniversalGarbage_add(garbage,free,value)
 

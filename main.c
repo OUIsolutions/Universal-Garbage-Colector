@@ -12,10 +12,12 @@ int main(){
 
     char * value_c = strdup("test c");
     UniversalGarbage_add_simple(garbage,value_c);
-    UniversalGarbage_remove(garbage,value_a);
+    UniversalGarbage_disconnect(garbage,value_a);
+    
     printf("value a :%s\n",value_a);
     printf("value b :%s\n",value_b);
     printf("value c :%s\n",value_c);
+
 
     UniversalGarbage_free(garbage);
 
