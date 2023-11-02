@@ -20,12 +20,13 @@ int main(){
         final_string =realloc(final_string,
                    (strlen(final_string)+ strlen(new_string) + 2) *sizeof(char)
         );
-        
+        UniversalGarbage_reallocate_simple_value(garbage,(void**)&final_string);
+
         strcat(final_string,new_string);
     }
 
     printf("final %s\n",final_string);
-    //printf("size %d\n",garbage->simple_values_size);
+    printf("size %d\n",garbage->simple_values_size);
     UniversalGarbage_free(garbage);
     return 0;
 }

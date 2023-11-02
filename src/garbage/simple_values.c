@@ -1,5 +1,16 @@
 
 
+void * UniversalGarbage_reallocate_simple_value(UniversalGarbage *self, void **pointer){
+    for(int i = 0; i < self->simple_values_size; i++){
+        privateUniversalGarbageSimpleElement *current = self->simple_values[i];
+        bool reallocate = current->pointer == pointer;
+        if(reallocate){
+          current->pointed_value = *pointer;
+          return *pointer;
+        }
+    }
+    return NULL;
+}
 void * private_UniversalGarbage_resset_simple_value(UniversalGarbage *self, void **pointer){
 
     for(int i = 0; i < self->simple_values_size; i++){
