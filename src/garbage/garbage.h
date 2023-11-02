@@ -20,6 +20,7 @@ void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
 void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
 
+void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer);
 
 void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
