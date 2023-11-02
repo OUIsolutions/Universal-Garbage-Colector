@@ -1,5 +1,5 @@
 
-#include "src/one.h"
+#include "../../UniversalGarbage.h"
 
 
 int main(){
@@ -12,12 +12,12 @@ int main(){
 
     char * value_c = strdup("test c");
     UniversalGarbage_add_simple(garbage,value_c);
-
+    UniversalGarbage_remove(garbage,value_a);
     printf("value a :%s\n",value_a);
+
     printf("value b :%s\n",value_b);
     printf("value c :%s\n",value_c);
-    free(value_a);
-    UniversalGarbage_free(garbage);
 
+    UniversalGarbage_free(garbage);
 }
 
