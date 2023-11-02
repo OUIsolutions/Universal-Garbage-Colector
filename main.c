@@ -24,7 +24,6 @@ char * create_list(long size, bool error){
 
         strcat(final_string,new_string);
     }
-    printf("%s",final_string);
     if(error){
         UniversalGarbage_free_including_return(garbage);
         return NULL;
@@ -40,6 +39,11 @@ int main(){
     char *test_correct = create_list(100,false);
     printf("correct %s",test_correct);
     free(test_correct);
+
+    char *test_incorrect = create_list(100,true);
+    if(!test_incorrect){
+        printf("incorrect is NULL\n");
+    }
 
     return 0;
 }

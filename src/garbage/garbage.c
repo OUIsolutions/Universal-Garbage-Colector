@@ -7,7 +7,11 @@ UniversalGarbage * newUniversalGarbage(){
 }
 
 
-
+bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer){
+    if(self->main_return){
+        return  self->main_return->pointer == pointer;
+    }
+}
 void * UniversalGarbage_set_return_raw_func(UniversalGarbage *self, void (*deallocator_callback)(void *element), void **pointer){
 
     if(self->main_return){
@@ -18,15 +22,12 @@ void * UniversalGarbage_set_return_raw_func(UniversalGarbage *self, void (*deall
     if(!self->main_return){
         self->main_return = new_privateUniversalGarbageSimpleElement(deallocator_callback,pointer);
     }
+    return *pointer;
 }
 
 void * UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **pointer){
-
-    bool is_the_main_value = false;
-    if(self->main_return){
-        is_the_main_value = self->main_return->pointer == pointer;
-    }
-    if(is_the_main_value){
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
         self->main_return->pointed_value = *pointer;
     }
 
@@ -45,6 +46,14 @@ void * UniversalGarbage_reallocate_raw_func(UniversalGarbage *self, void **point
 }
 void * UniversalGarbage_resset_raw_func(UniversalGarbage *self, void **pointer){
 
+    bool is_the_main_return = private_UniversalGarbage_is_the_main_return(self,pointer);
+    if(is_the_main_return){
+        privateUniversalGarbageSimpleElement_free_pointed_value(self->main_return);
+        self->main_return->pointed_value = *pointer;
+        return *pointer;
+    }
+
+    
     for(int i = 0; i < self->elements_size; i++){
         privateUniversalGarbageElement *current = self->elements[i];
         bool resset = current->pointer == pointer;
@@ -91,7 +100,6 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
     if(self->main_return){
         privateUniversalGarbageSimpleElement_free(self->main_return);
     }
-    free(self->main_return);
     free(self);
 }
 
