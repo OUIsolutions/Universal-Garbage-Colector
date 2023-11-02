@@ -14,3 +14,4 @@
 
 #define UniversalGarbage_resset(garbage,value) \
     UniversalGarbage_resset_raw_func(garbage,UniversalGarbage_cast(value))
+
