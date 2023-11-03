@@ -15,8 +15,17 @@ the entire **src** project, and include with **src/one.h**
 
 ## UniversalGarbage_add
 User the **UniversalGarbage_add** to add a new value to the garbage (it can be NULL)
+<!--codeof:exemples/add_value.c-->
+~~~c
+~~~
 
 
+## UniversalGarbage_add_simple
+The **UniversalGarbage_add_simple** works excataly like **UniversalGarbage_add**, but its only works
+with values released by **free** 
+<!--codeof:exemples/add_simple.c-->
+~~~c
+~~~
 
 
 # Exemples
