@@ -208,27 +208,21 @@ void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
         *pointer = NULL;
         return;
     }
-    const int NOTHING_REMOVED = -1;
-    int removed_point = NOTHING_REMOVED;
 
     for(int i = 0; i < self->elements_size; i++){
         privateUniversalGarbageElement *current = self->elements[i];
         if(current->pointer == pointer){
             private_UniversalGarbageSimpleElement_free(current);
             self->elements_size-=1;
-            removed_point = i;
+            bool its_not_the_last = i < self->elements_size;
+            if(its_not_the_last){
+                self->elements[i] = self->elements[self->elements_size];
+
+            }
+            *pointer = NULL;
             break;
         }
     }
-
-    if(removed_point == NOTHING_REMOVED){
-        return;
-    }
-    for(int i= removed_point; i< self->elements_size;i++){
-        self->elements[i] = self->elements[i+1];
-    }
-
-    *pointer = NULL;
 
 }
 void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer){
@@ -238,25 +232,21 @@ void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer){
         return;
     }
 
-    const int NOTHING_REMOVED = -1;
-    int removed_point = NOTHING_REMOVED;
-
     for(int i = 0; i < self->elements_size; i++){
         privateUniversalGarbageElement *current = self->elements[i];
         if(current->pointer == pointer){
             free(current);
             self->elements_size-=1;
-            removed_point = i;
+            bool its_not_the_last = i < self->elements_size;
+            if(its_not_the_last){
+                self->elements[i] = self->elements[self->elements_size];
+
+            }
             break;
         }
     }
 
-    if(removed_point == NOTHING_REMOVED){
-        return;
-    }
-    for(int i= removed_point; i< self->elements_size;i++){
-        self->elements[i] = self->elements[i+1];
-    }
+
 
 }
 void  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, void **pointer){
