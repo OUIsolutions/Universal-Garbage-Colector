@@ -1,0 +1,4 @@
+ 
+name ferrari
+model red
+carr incorrect its NULL

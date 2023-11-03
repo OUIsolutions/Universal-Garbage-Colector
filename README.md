@@ -130,20 +130,60 @@ Use **UniversalGarbage_set_return** to define the return of the functions
 Its used when an function can return NULL when happend an error
 <!--codeof:exemples/set_return.c-->
 ~~~c
-~~
+
+#include "UniversalGarbage.h"
+
+typedef struct Car{
+   char *name;
+   char *model;
+}Car;
+
+Car *newCar(char *name, char *model){
+    Car *self  = (Car*)malloc(sizeof(Car));
+    self->name = strdup(name);
+    self->model = strdup(model);
+    return self;
+}
+void Car_free(Car *self){
+    free(self->name);
+    free(self->model);
+    free(self);
+}
+
+Car * create_car_or_error(bool generate_error){
+
+    UniversalGarbage *garbage = newUniversalGarbage();
+    char *internal_string = strdup("internal string");
+    UniversalGarbage_add(garbage, free,internal_string);
+
+    Car *ferrari = newCar("ferrari","red");
+    UniversalGarbage_set_return(garbage, Car_free,ferrari);
+
+    if(!generate_error){
+        UniversalGarbage_free(garbage);
+        return ferrari;
+    }
+
+    UniversalGarbage_free_including_return(garbage);
+    return  NULL;
+
+}
+int main(){
+    Car *car_correct = create_car_or_error(false);
+
+    printf("name %s\n",car_correct->name);
+    printf("model %s\n",car_correct->model);
+    Car_free(car_correct);
+
+    Car *carr_incorrect = create_car_or_error(true);
+    if(!carr_incorrect){
+        printf("carr incorrect its NULL\n");
+    }
+    return 0;
+}
 
 
-# Exemples
-
-
-## Controling Scopes
-In these exemple, the function **create_list** can return the generated string or NULL
-and these is controled by **UniversalGarbage_free** to free all elements except the target return 
-and **UniversalGarbage_free_including_return** to free all elements (used on errors exceptions)
-
-
-<!--codeof:exemples/basic_string_return.c-->
-~~~c
+~~~
 
 #include "UniversalGarbage.h"
 
