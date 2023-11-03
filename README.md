@@ -33,6 +33,11 @@ Use **UniversalGarbage_resset** to resset an value that already added into the g
 ~~~c
 ~~~
 
+## UniversalGarbage_reallocate
+Use the **UniversalGarbage_reallocate** when you need to reallocate a value
+<!--codeof:exemples/reallocate.c-->
+~~~c
+~~~
 
 
 # Exemples
