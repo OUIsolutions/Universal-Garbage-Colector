@@ -187,9 +187,11 @@ int main(){
 
 # Exemples 
 
-
+In these example we are creating an function that can return an list of numbers, or NULL
+and exemplemplificate the lib usage
 <!--codeof:exemples/basic_string_return.c-->
 ~~~c
+
 #include "UniversalGarbage.h"
 
 
