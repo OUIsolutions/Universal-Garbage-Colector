@@ -27,6 +27,13 @@ with values released by **free**
 ~~~c
 ~~~
 
+## UniversalGarbage_resset
+Use **UniversalGarbage_resset** to resset an value that already added into the garbage
+<!--codeof:exemples/resset.c-->
+~~~c
+~~~
+
+
 
 # Exemples
 
