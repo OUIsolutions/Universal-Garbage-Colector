@@ -17,6 +17,21 @@ the entire **src** project, and include with **src/one.h**
 User the **UniversalGarbage_add** to add a new value to the garbage (it can be NULL)
 <!--codeof:exemples/add_value.c-->
 ~~~c
+
+#include "UniversalGarbage.h"
+
+
+int main(){
+    UniversalGarbage *garbage = newUniversalGarbage();
+
+    char *test = strdup("test content");
+    UniversalGarbage_add(garbage,free,test);
+    printf("test value:%s\n",test);
+
+    UniversalGarbage_free(garbage);
+}
+
+
 ~~~
 
 
@@ -25,18 +40,73 @@ The **UniversalGarbage_add_simple** works excataly like **UniversalGarbage_add**
 with values released by **free** 
 <!--codeof:exemples/add_simple.c-->
 ~~~c
+
+#include "UniversalGarbage.h"
+
+
+int main(){
+    UniversalGarbage *garbage = newUniversalGarbage();
+
+    char *test = strdup("test content");
+    UniversalGarbage_add_simple(garbage,test);
+    printf("test value:%s\n",test);
+
+    UniversalGarbage_free(garbage);
+}
+
+
 ~~~
 
 ## UniversalGarbage_resset
 Use **UniversalGarbage_resset** to resset an value that already added into the garbage
 <!--codeof:exemples/resset.c-->
 ~~~c
+
+#include "UniversalGarbage.h"
+
+
+int main(){
+    UniversalGarbage *garbage = newUniversalGarbage();
+
+    char *test = strdup("test content");
+    UniversalGarbage_add_simple(garbage,test);
+
+    test = strdup("new test content");
+    UniversalGarbage_resset(garbage,test);
+
+    printf("test value:%s\n",test);
+
+    UniversalGarbage_free(garbage);
+}
+
+
 ~~~
 
 ## UniversalGarbage_reallocate
 Use the **UniversalGarbage_reallocate** when you need to reallocate a value
 <!--codeof:exemples/reallocate.c-->
 ~~~c
+
+#include "UniversalGarbage.h"
+
+
+int main(){
+    UniversalGarbage *garbage = newUniversalGarbage();
+
+    char *test = strdup("test content");
+    UniversalGarbage_add_simple(garbage,test);
+    const char *concatenated_menssage = "new menssage";
+    test = (char*)realloc(test, strlen(test) + strlen(concatenated_menssage) + 2);
+    UniversalGarbage_reallocate(garbage,test);
+
+    strcat(test,concatenated_menssage);
+
+    printf("test value:%s\n",test);
+
+    UniversalGarbage_free(garbage);
+}
+
+
 ~~~
 
 
