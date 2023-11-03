@@ -20,15 +20,31 @@ User the **UniversalGarbage_add** to add a new value to the garbage (it can be N
 
 #include "UniversalGarbage.h"
 
+typedef struct Car{
+   char *name;
+   char *model;
+}Car;
 
+Car *newCar(char *name, char *model){
+    Car *self  = (Car*)malloc(sizeof(Car));
+    self->name = strdup(name);
+    self->model = strdup(model);
+    return self;
+}
+void Car_free(Car *self){
+    free(self->name);
+    free(self->model);
+    free(self);
+}
 int main(){
+
     UniversalGarbage *garbage = newUniversalGarbage();
-
-    char *test = strdup("test content");
-    UniversalGarbage_add(garbage,free,test);
-    printf("test value:%s\n",test);
-
+    Car *ferrari = newCar("ferrari","red");
+    UniversalGarbage_add(garbage, Car_free,ferrari);
+    printf("name %s\n",ferrari->name);
+    printf("model %s\n",ferrari->model);
     UniversalGarbage_free(garbage);
+
 }
 
 
