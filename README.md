@@ -185,6 +185,11 @@ int main(){
 
 ~~~
 
+# Exemples 
+
+
+<!--codeof:exemples/basic_string_return.c-->
+~~~c
 #include "UniversalGarbage.h"
 
 
