@@ -125,6 +125,13 @@ int main(){
 
 ~~~
 
+## UniversalGarbage_set_return
+Use **UniversalGarbage_set_return** to define the return of the functions
+Its used when an function can return NULL when happend an error
+<!--codeof:exemples/set_return.c-->
+~~~c
+~~
+
 
 # Exemples
 
