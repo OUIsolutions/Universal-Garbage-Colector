@@ -114,13 +114,13 @@ bool  rawUniversalGarbage_add(UniversalGarbage *self, void *release_callback, vo
         return false;
     }
 
+
     for(int i = 0; i < self->elements_size; i++){
         privateUniversalGarbageElement *current = self->elements[i];
         if(current->pointer == pointer){
             return false;
         }
     }
-
 
     self->elements = (privateUniversalGarbageElement**)realloc(
             self->elements,
@@ -159,9 +159,9 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
 
 void UniversalGarbage_free(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
+
     if(!self->is_the_main){
         free(self->return_values->elements);
-
         free(self->return_values);
     }
 
