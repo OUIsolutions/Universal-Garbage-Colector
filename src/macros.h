@@ -6,16 +6,21 @@
 
 #define UniversalGarbage_cast(value) ((void**)&value)
 
+
+#define UniversalGarbage_add(garbage,deallocator_callback,value) \
+    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
+
+#define UniversalGarbage_add_simple(garbage,value) \
+     UniversalGarbage_add(garbage,free,value)
+
+
 #define UniversalGarbage_add_return(garbage,deallocator_callback,value) \
-        rawUniversalGarbage_add(garbage->return_values,(void*)deallocator_callback,UniversalGarbage_cast(value))
+        UniversalGarbage_add(garbage->return_values,deallocator_callback,value)
 
 
 #define UniversalGarbage_add_simple_return(garbage,value) \
     UniversalGarbage_add_simple(garbage->return_values,value)
 
-
-#define UniversalGarbage_add(garbage,deallocator_callback,value) \
-    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
 
 #define  UniversalGarbage_remove(garbage,value) \
@@ -25,8 +30,7 @@
 #define  UniversalGarbage_disconnect(garbage,value) \
     rawUniversalGarbage_disconnect(garbage,UniversalGarbage_cast(value));
 
-#define UniversalGarbage_add_simple(garbage,value) \
-     UniversalGarbage_add(garbage,free,value)
+
 
 
 #define UniversalGarbage_reallocate(garbage,value) \

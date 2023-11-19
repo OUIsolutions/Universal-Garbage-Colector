@@ -20,6 +20,7 @@ UniversalGarbage * newUniversalGarbage(){
 bool  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
 
     if(self->is_the_root){
+
         if(rawUniversalGarbage_reallocate(self->return_values,pointer)){
             return true;
         }
@@ -148,7 +149,6 @@ void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
         private_UniversalGarbageSimpleElement_free(self->elements[i]);
     }
     free(self->elements);
-
 }
 
 void UniversalGarbage_free_including_return(UniversalGarbage *self){
@@ -156,7 +156,6 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
     if(self->is_the_root){
         UniversalGarbage_free(self->return_values);
     }
-
     free(self);
 }
 
