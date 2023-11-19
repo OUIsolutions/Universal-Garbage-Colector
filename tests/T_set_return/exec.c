@@ -25,7 +25,7 @@ Car * create_car_or_error(bool generate_error){
     UniversalGarbage_add(garbage, free,internal_string);
 
     Car *ferrari = newCar("ferrari","red");
-    UniversalGarbage_set_return(garbage, Car_free,ferrari);
+    UniversalGarbage_add_return(garbage, Car_free,ferrari);
 
     if(!generate_error){
         UniversalGarbage_free(garbage);
