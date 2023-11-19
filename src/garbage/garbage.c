@@ -163,9 +163,16 @@ void UniversalGarbage_free(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
 
     if(self->is_the_root){
-        free(self->return_values->elements);
+
+        UniversalGarbage *return_garbage = self->return_values;
+        for(int i = 0; i < return_garbage->elements_size; i++){
+            free(return_garbage->elements[i]);
+        }
+
+        free(return_garbage->elements);
         free(self->return_values);
     }
+
 
     free(self);
 }

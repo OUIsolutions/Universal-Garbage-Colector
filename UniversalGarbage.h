@@ -19,16 +19,21 @@
 
 #define UniversalGarbage_cast(value) ((void**)&value)
 
+
+#define UniversalGarbage_add(garbage,deallocator_callback,value) \
+    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
+
+#define UniversalGarbage_add_simple(garbage,value) \
+     UniversalGarbage_add(garbage,free,value)
+
+
 #define UniversalGarbage_add_return(garbage,deallocator_callback,value) \
-        rawUniversalGarbage_add(garbage->return_values,(void*)deallocator_callback,UniversalGarbage_cast(value))
+        UniversalGarbage_add(garbage->return_values,deallocator_callback,value)
 
 
 #define UniversalGarbage_add_simple_return(garbage,value) \
     UniversalGarbage_add_simple(garbage->return_values,value)
 
-
-#define UniversalGarbage_add(garbage,deallocator_callback,value) \
-    rawUniversalGarbage_add(garbage,(void*)deallocator_callback,UniversalGarbage_cast(value))
 
 
 #define  UniversalGarbage_remove(garbage,value) \
@@ -38,8 +43,7 @@
 #define  UniversalGarbage_disconnect(garbage,value) \
     rawUniversalGarbage_disconnect(garbage,UniversalGarbage_cast(value));
 
-#define UniversalGarbage_add_simple(garbage,value) \
-     UniversalGarbage_add(garbage,free,value)
+
 
 
 #define UniversalGarbage_reallocate(garbage,value) \
@@ -74,7 +78,7 @@ typedef  struct UniversalGarbage{
     struct UniversalGarbage *return_values;
     privateUniversalGarbageElement **elements;
     int  elements_size;
-    bool is_the_main;
+    bool is_the_root;
 
 }UniversalGarbage;
 
@@ -133,14 +137,14 @@ void private_UniversalGarbageSimpleElement_free(privateUniversalGarbageElement *
 UniversalGarbage * private_new_MainUniversalGarbage(){
     UniversalGarbage *self = UniversalGarbage_create_empty_struct(self,UniversalGarbage)
     self->elements = (privateUniversalGarbageElement**)malloc(0);
-    self->is_the_main = true;
+    self->is_the_root = false;
     return self;
 }
 
 UniversalGarbage * newUniversalGarbage(){
     UniversalGarbage *self = UniversalGarbage_create_empty_struct(self,UniversalGarbage)
+    self->is_the_root = true;
     self->elements = (privateUniversalGarbageElement**)malloc(0);
-
     self->return_values =private_new_MainUniversalGarbage();
 
     return self;
@@ -151,7 +155,8 @@ UniversalGarbage * newUniversalGarbage(){
 
 bool  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
 
-    if(!self->is_the_main){
+    if(self->is_the_root){
+
         if(rawUniversalGarbage_reallocate(self->return_values,pointer)){
             return true;
         }
@@ -173,7 +178,7 @@ bool  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
 
 bool rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
 
-    if(!self->is_the_main){
+    if(self->is_the_root){
         if(rawUniversalGarbage_resset(self->return_values,pointer)){
             return true;
         }
@@ -193,7 +198,7 @@ bool rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
 
 }
 bool  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
-    if(!self->is_the_main){
+    if(self->is_the_root){
         if(rawUniversalGarbage_remove(self->return_values,pointer)){
             *pointer = NULL;
             return true;
@@ -217,7 +222,7 @@ bool  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer){
     return  false;
 }
 bool  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer){
-    if(!self->is_the_main){
+    if(self->is_the_root){
         if(rawUniversalGarbage_disconnect(self->return_values,pointer)){
             return true;
         }
@@ -280,22 +285,20 @@ void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
         private_UniversalGarbageSimpleElement_free(self->elements[i]);
     }
     free(self->elements);
-
 }
 
 void UniversalGarbage_free_including_return(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
-    if(!self->is_the_main){
+    if(self->is_the_root){
         UniversalGarbage_free(self->return_values);
     }
-
     free(self);
 }
 
 void UniversalGarbage_free(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
 
-    if(!self->is_the_main){
+    if(self->is_the_root){
         free(self->return_values->elements);
         free(self->return_values);
     }
