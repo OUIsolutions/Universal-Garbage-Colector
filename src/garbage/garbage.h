@@ -2,29 +2,28 @@
 
 typedef  struct UniversalGarbage{
 
-    privateUniversalGarbageElement *main_return;
+    struct UniversalGarbage *return_values;
     privateUniversalGarbageElement **elements;
     int  elements_size;
-
+    bool is_the_main;
 
 }UniversalGarbage;
 
 UniversalGarbage * newUniversalGarbage();
 
+UniversalGarbage * private_new_MainUniversalGarbage();
 
-bool private_UniversalGarbage_is_the_main_return(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_set_return(UniversalGarbage *self, void *release_callback, void **pointer);
 
-void  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
+bool  rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
+bool  rawUniversalGarbage_remove(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer);
+bool  rawUniversalGarbage_disconnect(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
+bool rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer);
 
-void  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);
+bool  rawUniversalGarbage_add(UniversalGarbage *self,  void *release_callback, void **pointer);
 
 void private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self);
 
