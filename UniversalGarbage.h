@@ -285,7 +285,10 @@ void  private_UniversalGarbage_free_all_sub_elements(UniversalGarbage *self){
 
 void UniversalGarbage_free_including_return(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
-    UniversalGarbage_free(self->return_values);
+    if(!self->is_the_main){
+        UniversalGarbage_free(self->return_values);
+    }
+
     free(self);
 }
 
