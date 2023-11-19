@@ -170,7 +170,7 @@ void UniversalGarbage_free(UniversalGarbage *self){
         }
 
         free(return_garbage->elements);
-        free(self->return_values);
+        free(return_garbage);
     }
 
 
