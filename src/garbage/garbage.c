@@ -159,8 +159,11 @@ void UniversalGarbage_free_including_return(UniversalGarbage *self){
 
 void UniversalGarbage_free(UniversalGarbage *self){
     private_UniversalGarbage_free_all_sub_elements(self);
-    free(self->return_values->elements);
-    free(self->return_values);
+    if(!self->is_the_main){
+        free(self->return_values->elements);
+
+        free(self->return_values);
+    }
 
     free(self);
 }

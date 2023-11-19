@@ -165,10 +165,10 @@ bool  rawUniversalGarbage_reallocate(UniversalGarbage *self, void **pointer){
 
         if(reallocate){
             current->pointed_value = *pointer;
-
+            return true;
         }
-
     }
+    return false;
 }
 
 bool rawUniversalGarbage_resset(UniversalGarbage *self, void **pointer){
