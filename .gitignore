@@ -1,6 +1,6 @@
 # Prerequisites
 *.d
-
+release
 # Object files
 *.o
 *.ko
@@ -10,7 +10,6 @@
 out_folder
 # Linker output
 *.ilk
-main.c
 main
 *.map
 *.exp
