@@ -1,3 +1,6 @@
+
+#include "../unique.definition_requirements.h"
+
 UniversalGarbage * private_new_MainUniversalGarbage(){
     UniversalGarbage *self = UniversalGarbage_create_empty_struct(self,UniversalGarbage)
     self->elements = (privateUniversalGarbageElement**)malloc(0);
