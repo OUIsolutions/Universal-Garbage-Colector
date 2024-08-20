@@ -11,4 +11,3 @@ int main(){
 
     UniversalGarbage_free(garbage);
 }
-

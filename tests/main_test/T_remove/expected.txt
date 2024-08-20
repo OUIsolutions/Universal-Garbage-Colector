@@ -1,4 +1,3 @@
- 
-value a :test a
+value a :(null)
 value b :test b
 value c :test c
