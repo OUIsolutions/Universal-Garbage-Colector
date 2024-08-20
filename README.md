@@ -10,7 +10,7 @@ so you just need to download the [Single File Version](https://github.com/OUIsol
 
 ## Full Folder
 If you want to use with full folder, to make modifications into the source code, you can donwload
-the entire **src** project, and include with **src/one.h**
+the entire **src** project, and include with **src/one.c**
 
 # Understanding Functions and Macros
 
