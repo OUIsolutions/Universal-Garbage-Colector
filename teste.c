@@ -1,4 +1,4 @@
-#include "src/one.c"
+#include "release/UniversalGarbage.h"
 
 typedef struct Car{
    char *name;
