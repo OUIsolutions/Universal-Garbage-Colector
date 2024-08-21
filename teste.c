@@ -1,28 +1,43 @@
-#include "release/UniversalGarbage.h"
-
+#include "src/one.c"
 typedef struct Car{
-   char *name;
-   char *model;
+    char *name;
+    char *color;
+    UniversalGarbage  *garbage;
 }Car;
 
-Car *newCar(char *name, char *model){
-    Car *self  = (Car*)malloc(sizeof(Car));
-    self->name = strdup(name);
-    self->model = strdup(model);
+Car *newCar(){
+    Car *self = UniversalGarbage_create_empty_struct(self,Car);
+    self->garbage = newUniversalGarbage();
+    UniversalGarbage_add(self->garbage,free,self);
+    UniversalGarbage_add(self->garbage,free,self->name);
+    UniversalGarbage_add(self->garbage,free,self->color);
     return self;
+
+}
+
+void Car_set_name(Car*self,const char *name){
+    self->name = strdup(name);
+    UniversalGarbage_resset(self->garbage,self->name);
+}
+
+void Car_set_color(Car*self,const char *color){
+    self->color = strdup(color);
+    UniversalGarbage_resset(self->garbage,self->color);
 }
 void Car_free(Car *self){
-    free(self->name);
-    free(self->model);
-    free(self);
+    UniversalGarbage_free(self->garbage);
 }
+
+
 int main(){
-
     UniversalGarbage *garbage = newUniversalGarbage();
-    Car *ferrari = newCar("ferrari","red");
-    UniversalGarbage_add(garbage, Car_free,ferrari);
-    printf("name %s\n",ferrari->name);
-    printf("model %s\n",ferrari->model);
-    UniversalGarbage_free(garbage);
+    Car  *test = newCar();
+    //we set Car_free as the dealocator callback
+    UniversalGarbage_add(garbage, Car_free,test);
+    Car_set_name(test,"ferrari");
+    Car_set_color(test,"red");
 
+    printf("model:%s\n",test->name);
+    printf("color:%s\n",test->color);
+    UniversalGarbage_free(garbage);
 }
