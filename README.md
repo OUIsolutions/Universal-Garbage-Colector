@@ -6,7 +6,7 @@ its designed with the idea of releasing all the memory of each scopes once
 
 # Single File installation
 Like any other OUI lib, its designed to be as much easy and as much portable as possible,
-so you just need to download the [Single File Version](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/v2.0/UniversalGarbage.h ) and include into your code
+so you just need to download the [Single File Version](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/v2.001/UniversalGarbage.h ) and include into your code
 
 ## Full Folder
 If you want to use with full folder, to make modifications into the source code, you can donwload
@@ -230,4 +230,57 @@ int main(){
 
 ## Structs
 you also can use the garbage inside structs, adding the **garbage** object inside the struct in these way
+
+
+~~~c
+
+
+#include "UniversalGarbage.h"
+
+typedef struct Car{
+    char *name;
+    char *color;
+    UniversalGarbage  *garbage;
+}Car;
+
+Car *newCar(){
+    Car *self = UniversalGarbage_create_empty_struct(self,Car);
+    self->garbage = newUniversalGarbage();
+    UniversalGarbage_add(self->garbage,free,self);
+    UniversalGarbage_add(self->garbage,free,self->name);
+    UniversalGarbage_add(self->garbage,free,self->color);
+    return self;
+
+}
+
+void Car_set_name(Car*self,const char *name){
+    self->name = strdup(name);
+    UniversalGarbage_resset(self->garbage,self->name);
+}
+
+void Car_set_color(Car*self,const char *color){
+    self->color = strdup(color);
+    UniversalGarbage_resset(self->garbage,self->color);
+}
+void Car_free(Car *self){
+    UniversalGarbage_free(self->garbage);
+}
+
+
+int main(){
+    UniversalGarbage *garbage = newUniversalGarbage();
+    Car  *test = newCar();
+    //we set Car_free as the dealocator callback
+    UniversalGarbage_add(garbage, Car_free,test);
+    Car_set_name(test,"ferrari");
+    Car_set_color(test,"red");
+
+    printf("model:%s\n",test->name);
+    printf("color:%s\n",test->color);
+    UniversalGarbage_free(garbage);
+}
+
+
+~~~
+
 

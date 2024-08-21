@@ -6,7 +6,7 @@ its designed with the idea of releasing all the memory of each scopes once
 
 # Single File installation
 Like any other OUI lib, its designed to be as much easy and as much portable as possible,
-so you just need to download the [Single File Version](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/v2.0/UniversalGarbage.h ) and include into your code
+so you just need to download the [Single File Version](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/v2.001/UniversalGarbage.h ) and include into your code
 
 ## Full Folder
 If you want to use with full folder, to make modifications into the source code, you can donwload
@@ -49,3 +49,6 @@ codeof:exemples/basic_string_return.c
 you also can use the garbage inside structs, adding the **garbage** object inside the struct in these way
 
 codeof:exemples/struct.c
+
+
+
