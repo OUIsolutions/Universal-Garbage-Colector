@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+teste.c
 release
 # Object files
 *.o
@@ -7,7 +8,7 @@ release
 *.obj
 *.elf
 *.pyc
-cache2 
+cache2
 
 out_folder
 # Linker output
@@ -54,5 +55,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-!build.exe 
+!build.exe
 !build.out

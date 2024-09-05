@@ -1,32 +1,21 @@
-#include "src/one.c"
+#include "src/declaration.h"
+
 typedef struct Car{
     char *name;
     char *color;
     UniversalGarbage  *garbage;
 }Car;
 
-Car *newCar(){
-    Car *self = UniversalGarbage_create_empty_struct(self,Car);
-    self->garbage = newUniversalGarbage();
-    UniversalGarbage_add(self->garbage,free,self);
-    UniversalGarbage_add(self->garbage,free,self->name);
-    UniversalGarbage_add(self->garbage,free,self->color);
-    return self;
+Car *newCar();
 
-}
 
-void Car_set_name(Car*self,const char *name){
-    self->name = strdup(name);
-    UniversalGarbage_resset(self->garbage,self->name);
-}
+void Car_set_name(Car*self,const char *name);
 
-void Car_set_color(Car*self,const char *color){
-    self->color = strdup(color);
-    UniversalGarbage_resset(self->garbage,self->color);
-}
-void Car_free(Car *self){
-    UniversalGarbage_free(self->garbage);
-}
+
+void Car_set_color(Car*self,const char *color);
+
+void Car_free(Car *self);
+
 
 
 int main(){

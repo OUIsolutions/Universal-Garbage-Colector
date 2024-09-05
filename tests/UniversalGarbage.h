@@ -1,14 +1,12 @@
 
 
 #ifndef UNIVERSAL_GARBAGE_H
+#ifndef UNIVERSAL_GARBAGE_H
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
-
-
 
 #define UniversalGarbage_create_empty_struct(name,element_type) \
 (element_type*)malloc(sizeof(element_type));    \
@@ -129,6 +127,8 @@ void UniversalGarbage_free(UniversalGarbage *self);
 
 
 
+#define UNIVERSAL_GARBAGE_H
+#endif
 
 
 
