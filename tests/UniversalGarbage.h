@@ -2,6 +2,9 @@
 
 #ifndef UNIVERSAL_GARBAGE_H
 #ifndef UNIVERSAL_GARBAGE_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <stdbool.h>
 #include <stdlib.h>
@@ -126,6 +129,11 @@ void UniversalGarbage_free(UniversalGarbage *self);
 
 
 
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #define UNIVERSAL_GARBAGE_H
 #endif
