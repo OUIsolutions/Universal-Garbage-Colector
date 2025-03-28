@@ -1,6 +1,6 @@
 
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 typedef struct Car{
     char *name;

@@ -1,5 +1,5 @@
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 
 char * create_list(long size, bool generate_error){
