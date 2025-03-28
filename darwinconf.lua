@@ -2,7 +2,7 @@
 darwin.silverchain.generate({
     src = "src",
     project_short_cut = "UniversalGarbage",
-    tags = { "macros", "types",  "fdeclare", "globals", "fdefine" }
+    tags = { "native_imports", "macros", "types",  "fdeclare", "globals", "fdefine" }
 })
 
 local MAX_CONNTENT = darwin.camalgamator.ONE_MB * 20
