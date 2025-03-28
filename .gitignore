@@ -7,6 +7,7 @@ release
 *.ko
 *.obj
 *.elf
+src/imports
 *.pyc
 cache2
 
