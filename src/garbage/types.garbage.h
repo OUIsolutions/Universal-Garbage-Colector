@@ -1,9 +1,5 @@
 
 
-#ifndef  PRIVATE_UNIVERSAL_GARBAGE_TYPE
-#define PRIVATE_UNIVERSAL_GARBAGE_TYPE
-
-
 typedef  struct UniversalGarbage{
 
     struct UniversalGarbage *return_values;
@@ -12,4 +8,3 @@ typedef  struct UniversalGarbage{
     bool is_the_root;
 
 }UniversalGarbage;
-#endif
