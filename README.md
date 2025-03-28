@@ -4,13 +4,6 @@
 Universal-Garbage is an tiny C lib for reducing memory leak problems in C
 its designed with the idea of releasing all the memory of each scopes once
 
-# Single File installation
-Like any other OUI lib, its designed to be as much easy and as much portable as possible,
-so you just need to download the [Single File Version](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/v2.003/UniversalGarbage.h ) and include into your code
-
-## Full Folder
-If you want to use with full folder, to make modifications into the source code, you can donwload
-the entire **src** project, and include with **src/one.c**
 
 # Understanding Functions and Macros
 
@@ -21,7 +14,7 @@ User the **UniversalGarbage_add** to add a new value to the garbage (it can be N
 
 ~~~c
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 typedef struct Car{
    char *name;
@@ -61,7 +54,7 @@ with values released by **free**
 
 ~~~c
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 
 int main(){
@@ -81,7 +74,7 @@ Use **UniversalGarbage_resset** to resset an value that already added into the g
 
 ~~~c
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 
 int main(){
@@ -108,7 +101,7 @@ Its used when an function can return NULL when happend an error
 
 ~~~c
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 typedef struct Car{
    char *name;
@@ -170,7 +163,7 @@ and exemplemplificate the lib usage
 
 ~~~c
 
-#include "UniversalGarbage.h"
+#include "UniversalGarbageOne.c"
 
 
 char * create_list(long size, bool generate_error){
