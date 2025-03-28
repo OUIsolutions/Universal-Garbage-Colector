@@ -2,7 +2,7 @@
 
 ## Install
 
-To install the lib just copy the [Amalgamation](https://github.com/OUIsolutions/C-argv-parser/releases/download/0.0.1/CArgvParseOne.c) into your project and include it in your code:
+To install the lib just copy the [Amalgamation](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/3.0.0/UniversalGarbageOne.c) into your project and include it in your code:
 ```c
 #include "CArgvParseOne.c"
 ```
@@ -10,7 +10,7 @@ To install the lib just copy the [Amalgamation](https://github.com/OUIsolutions/
 
 If  you are on Linux, you can download the lib with:
 ```bash
-curl -L https://github.com/OUIsolutions/C-argv-parser/releases/download/0.0.1/CArgvParseOne.c -o CArgvParseOne.c
+curl -L https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/3.0.0/UniversalGarbageOne.c  -o UniversalGarbageOne.c
 ```
 
 ## Build from scratch
