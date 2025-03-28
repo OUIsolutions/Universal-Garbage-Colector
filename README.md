@@ -5,7 +5,13 @@ Universal-Garbage is an tiny C lib for reducing memory leak problems in C
 its designed with the idea of releasing all the memory of each scopes once
 
 
-# Understanding Functions and Macros
+# Release
+| Item | Description |
+| --- | --- |
+|[UniversalGarbage.c](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/3.0.0/UniversalGarbage.c)| Definition  | 
+|[UniversalGarbage.h](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/3.0.0/UniversalGarbage.h)|Declaration|
+|[UniversalGarbageOne.c](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/3.0.0/UniversalGarbageOne.c)| One file version|
+|[UniversalGarbage.zip](https://github.com/OUIsolutions/Universal-Garbage-Colector/releases/download/3.0.0/UniversalGarbage.zip)| All files|
 
 
 ## UniversalGarbage_add
