@@ -1,5 +1,5 @@
 
-#include "release/UniversalGarbageOne.c"
+#include "release/UniversalGarbage.h"
 
 int main(){
     UniversalGarbage *garbage = newUniversalGarbage();

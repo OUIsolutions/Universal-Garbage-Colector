@@ -24,11 +24,12 @@ darwin.dtw.write_file("release/UniversalGarbage.h", only_declare)
 
 local only_definition = darwin.camalgamator.generate_amalgamation_with_callback("src/imports/imports.fdefine.h",
 function(import, path)
-    if import == "src/imports/imports.fdeclare.h" then
-              return "dont-include"
+    if darwin.dtw.ends_with(import, ".c") then
+        return "include-once"
     end
+    
+    return "dont-include"
 
-    return "include-once"
 end,
 
 MAX_CONNTENT,
