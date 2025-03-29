@@ -1,5 +1,3 @@
-
-
 # Universal-Garbage-Colector
 Universal-Garbage is an tiny C lib for reducing memory leak problems in C
 its designed with the idea of releasing all the memory of each scopes once
@@ -48,7 +46,12 @@ int main(){
 | Item          | What It Is |
 |-------        |-----------|
 | [Build](/docs/build_and_install.md)| Build and Install |
-
+| [Basic Usage](/docs/basic_usage.md) | Basic Usage |
+| [Add Simple](/docs/add_simple.md) | Adding Simple Types |
+| [Disconnect](/docs/disconnect.md) | Disconnecting Resources |
+| [Resset](/docs/resset.md) | Resetting Memory |
+| [Reallocate](/docs/reallocate.md) | Reallocating Memory |
+| [Set Return](/docs/set_return.md) | Setting Return Values |
 
 # Build Toolchain
 
