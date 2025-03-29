@@ -1,5 +1,5 @@
 # Universal-Garbage-Colector
-Universal-Garbage is a tiny C library designed to reduce memory leak problems by managing memory allocation and deallocation within scopes.
+**Universal-Garbage** is a lightweight Single File C library designed to mitigate memory leak issues by providing a structured approach to memory management within scopes. It employs a garbage collection mechanism to automatically handle memory deallocation, thereby reducing the risk of memory leaks and simplifying memory management for developers.
 
 ```c
 #include "UniversalGarbageOne.c"
@@ -44,7 +44,7 @@ int main(){
 
 | Item          | What It Is |
 |-------        |-----------|
-| [Build](/docs/build_and_install.md)| Instructions for building and installing the library |
+| [Build and Install](/docs/build_and_install.md)| Instructions for building and installing the library |
 | [Basic Usage](/docs/basic_usage.md) | Demonstrates the basic usage of the library with a `Car` object example |
 | [Add Simple](/docs/add_simple.md) | Shows how to add simple types to the garbage collector |
 | [Disconnect](/docs/disconnect.md) | Explains how to disconnect resources from the garbage collector |
