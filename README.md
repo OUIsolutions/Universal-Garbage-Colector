@@ -1,6 +1,5 @@
 # Universal-Garbage-Colector
-Universal-Garbage is an tiny C lib for reducing memory leak problems in C
-its designed with the idea of releasing all the memory of each scopes once
+Universal-Garbage is a tiny C library designed to reduce memory leak problems by managing memory allocation and deallocation within scopes.
 
 ```c
 #include "UniversalGarbageOne.c"
@@ -45,13 +44,13 @@ int main(){
 
 | Item          | What It Is |
 |-------        |-----------|
-| [Build](/docs/build_and_install.md)| Build and Install |
-| [Basic Usage](/docs/basic_usage.md) | Basic Usage |
-| [Add Simple](/docs/add_simple.md) | Adding Simple Types |
-| [Disconnect](/docs/disconnect.md) | Disconnecting Resources |
-| [Resset](/docs/resset.md) | Resetting Memory |
-| [Reallocate](/docs/reallocate.md) | Reallocating Memory |
-| [Set Return](/docs/set_return.md) | Setting Return Values |
+| [Build](/docs/build_and_install.md)| Instructions for building and installing the library |
+| [Basic Usage](/docs/basic_usage.md) | Demonstrates the basic usage of the library with a `Car` object example |
+| [Add Simple](/docs/add_simple.md) | Shows how to add simple types to the garbage collector |
+| [Disconnect](/docs/disconnect.md) | Explains how to disconnect resources from the garbage collector |
+| [Resset](/docs/resset.md) | Describes resetting memory for an object |
+| [Reallocate](/docs/reallocate.md) | Details how to reallocate memory |
+| [Set Return](/docs/set_return.md) | Explains how to handle return values and error management |
 
 # Build Toolchain
 
