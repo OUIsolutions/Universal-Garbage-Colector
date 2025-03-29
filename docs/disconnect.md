@@ -1,5 +1,10 @@
+## Disconnect 
+you can use the disconnect function, to remove some object form
+the garbage collector, and free the memory by yourself.
 
-#include "src/one.c"
+```c
+
+#include "UniversalGarbageOne.c"
 
 
 int main(){
@@ -23,3 +28,4 @@ int main(){
 
 }
 
+```
